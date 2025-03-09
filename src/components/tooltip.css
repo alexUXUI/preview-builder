@@ -1,0 +1,84 @@
+.tooltip-wrapper {
+  position: relative;
+}
+
+.tooltip-label-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.tooltip-label {
+  font-weight: 500;
+}
+
+.tooltip-trigger-container {
+  /* position: relative;
+  display: inline-block; */
+}
+
+.tooltip-icon {
+  cursor: help;
+  color: #d4d9eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tooltip-icon:hover {
+  color: #4070ff;
+}
+
+.tooltip-content {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1002;
+  width: 250px;
+  padding: 12px;
+  margin-top: 8px;
+  background-color: #343445;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid #4c4c63;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.tooltip-content::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent #343445 transparent;
+}
+
+.tooltip-trigger-container:hover .tooltip-content {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* For the Preview Builder title tooltip */
+.preview-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.preview-title .tooltip-trigger-container {
+  margin-top: 3px;
+}
+
+.preview-title h3 {
+  margin: 0;
+}

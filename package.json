@@ -1,0 +1,28 @@
+{
+  "name": "hawaii-preview-widget",
+  "version": "1.1.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rsbuild build",
+    "check": "biome check --write",
+    "dev": "rsbuild dev --open",
+    "format": "biome format --write",
+    "preview": "rsbuild preview"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "runtime": "link:@module-federation/enhanced/runtime"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@module-federation/rsbuild-plugin": "^0.10.0",
+    "@rsbuild/core": "^1.2.14",
+    "@rsbuild/plugin-react": "^1.1.1",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "hawaii-dev-tools": "^0.0.21",
+    "typescript": "^5.8.2"
+  }
+}

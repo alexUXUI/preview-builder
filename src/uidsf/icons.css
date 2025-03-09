@@ -1,0 +1,193 @@
+/* NOTE: */
+/* SVGs from Figma cut across pixel boundaries */
+/* see https://stackoverflow.com/questions/57628106/why-is-my-resized-svg-icon-blurry-when-rendered */
+
+.icon {
+    --size: var(--sizes-20);
+    --icon: '';
+    display: inline-flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    width: var(--size);
+    height: var(--size);
+    font-style: normal;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: cover;
+    mask-size: var(--size);
+    mask-image: var(--icon);
+    background-color: black;
+}
+
+.icon.xs {
+    --size: var(--sizes-10);
+}
+
+.icon.ss {
+    --size: var(--sizes-13);
+}
+
+.icon.sm {
+    --size: var(--sizes-20);
+}
+
+.icon.md {
+    --size: var(--sizes-40);
+}
+
+.icon.lg {
+    --size: var(--sizes-80);
+}
+
+.icon.xl {
+    --size: var(--sizes-160);
+}
+
+.icon.zoom-in {
+    --icon: url('./icons/zoom-in.svg');
+}
+
+.icon.zoom-out {
+    --icon: url('./icons/zoom-out.svg');
+}
+
+.icon.width-full {
+    --icon: url('./icons/width-full.svg');
+}
+
+.icon.expand-out {
+    --icon: url('./icons/expand-02.svg');
+}
+
+.icon.rotate-left {
+    --icon: url('./icons/rotate-left.svg');
+}
+
+.icon.rotate-right {
+    --icon: url('./icons/rotate-right.svg');
+}
+
+.icon.arrow-up {
+    --icon: url('./icons/arrow-up.svg');
+}
+
+.icon.arrow-down {
+    --icon: url('./icons/arrow-desc.svg');
+}
+
+.icon.chevron-left-double {
+    --icon: url('./icons/chevron-left-double.svg');
+}
+
+.icon.smartsearch {
+    --icon: url('./icons/smart_search.svg');
+}
+
+.icon.search {
+    --icon: url('./icons/search.svg');
+}
+
+.icon.funnel{
+    --icon: url('./icons/filter-lines.svg');
+}
+
+.icon.send {
+    --icon: url('./icons/send.svg');
+}
+
+.icon.req-nav {
+    --icon: url('./icons/list-02.svg');
+}
+
+.icon.object-metadata {
+    --icon: url('./icons/data-insights.svg');
+}
+
+.icon.doc-metadata {
+    --icon: url('./icons/file-open.svg');
+}
+
+.icon.file-export {
+    --icon: url('./icons/file-export.svg');
+}
+
+.icon.file-download {
+    --icon: url('./icons/file-download.svg');
+}
+
+.icon.simsights {
+    --icon: url('./icons/requirements_compare.svg');
+}
+
+.icon.minimize {
+    --icon: url('./icons/minimize.svg');
+}
+
+.icon.x-close {
+    --icon: url('./icons/x-close.svg');
+}
+
+.icon.x-remove {
+    --icon: url('./icons/x-remove.svg');
+}
+
+.icon.ruler {
+    --icon: url('./icons/ruler.svg');
+}
+
+.icon.tool {
+    --icon: url('./icons/tool.svg');
+}
+
+.icon.book {
+    --icon: url('./icons/book.svg');
+}
+
+.icon.box {
+    --icon: url('./icons/box.svg');
+}
+
+.icon.chevron-left-double {
+    --icon: url('./icons/chevron-left-double.svg');
+}
+
+.icon.chevron-right-double {
+    --icon: url('./icons/chevron-right-double.svg');
+}
+
+.icon.chevron-left {
+    --icon: url('./icons/chevron-left.svg');
+}
+
+.icon.chevron-right {
+    --icon: url('./icons/chevron-right.svg');
+}
+
+.icon.chevron-down {
+    --icon: url('./icons/chevron-down.svg');
+}
+
+.icon.bullet-checkbox {
+    --icon: url('./icons/bullet-checkbox.svg');
+}
+
+.icon.frequency {
+    --icon: url('./icons/row_grouping.svg');
+}
+
+.icon.sorting-az{
+    --icon: url('./icons/sorting-AZ.svg');
+}
+
+.icon.info {
+    --icon: url('./icons/info.svg');
+}
+
+.icon.alert-circle {
+    --icon: url('./icons/alert-circle.svg');
+}
+
+.icon.alert-triangle {
+    --icon: url('./icons/alert-triangle.svg');
+}
