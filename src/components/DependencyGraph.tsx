@@ -24,19 +24,16 @@ const DependencyGraph = () => {
             const allNodes: Node[] = [];
             const allEdges: Edge[] = [];
             const processedNodes = new Set<string>();
-            const processedEdges = new Set<string>();
-            const instanceNameToRuntimeId = new Map<string, string>();
-            const mfeToRuntimeMap = new Map<string, string>();
+            const nodeNameToId = new Map<string, string>();
 
             // Calculate vertical spacing
             const VERTICAL_SPACING = 120;
             const HORIZONTAL_SPACING = 250;
-            let currentLevel = 0;
 
-            // Helper function to check if a remote name matches any federation runtime
-            const findMatchingRuntime = (remoteName: string) => {
-                return window.__FEDERATION__.__INSTANCES__?.find(instance =>
-                    instance.name === remoteName
+            // Helper function to check if a name matches any federation runtime
+            const isRuntimeNode = (name: string) => {
+                return window.__FEDERATION__.__INSTANCES__?.some(instance =>
+                    instance.name === name
                 );
             };
 
@@ -44,16 +41,18 @@ const DependencyGraph = () => {
             const processRuntime = (instance: any, level: number, parentId?: string) => {
                 if (!instance?.options?.remotes?.length) return;
 
-                const runtimeId = `runtime-${instance.name}-${level}`;
                 const runtimeName = instance.name || 'Runtime';
+                const runtimeId = nodeNameToId.get(runtimeName) || `runtime-${instance.name}-${level}`;
+                nodeNameToId.set(runtimeName, runtimeId);
 
                 // Create runtime node if not already processed
                 if (!processedNodes.has(runtimeId)) {
+                    const hasRuntimeCapabilities = isRuntimeNode(runtimeName);
+
                     allNodes.push({
                         id: runtimeId,
                         data: {
-                            label: `${runtimeName} Runtime`,
-                            instanceName: instance.options.name || 'instance'
+                            label: `${runtimeName}${hasRuntimeCapabilities ? ' (Runtime)' : ''}`
                         },
                         position: {
                             x: 400,
@@ -90,16 +89,15 @@ const DependencyGraph = () => {
 
                 // Process remotes
                 instance.options.remotes.forEach((remote: any, index: number) => {
-                    const remoteId = `remote-${remote.name}-${level}-${index}`;
-                    if (!processedNodes.has(remoteId)) {
-                        // Check if this remote has its own federation runtime
-                        const matchingRuntime = findMatchingRuntime(remote.name);
-                        const isRuntimeNode = !!matchingRuntime;
+                    const hasRuntimeCapabilities = isRuntimeNode(remote.name);
+                    const remoteId = nodeNameToId.get(remote.name) || `remote-${remote.name}-${level}-${index}`;
+                    nodeNameToId.set(remote.name, remoteId);
 
+                    if (!processedNodes.has(remoteId)) {
                         allNodes.push({
                             id: remoteId,
                             data: {
-                                label: remote.name + (isRuntimeNode ? ' Runtime' : ''),
+                                label: `${remote.name}${hasRuntimeCapabilities ? ' (Runtime)' : ' (Remote)'}`,
                                 entry: remote.entry,
                                 type: remote.type
                             },
@@ -108,9 +106,9 @@ const DependencyGraph = () => {
                                 y: (level + 1) * VERTICAL_SPACING
                             },
                             style: {
-                                background: isRuntimeNode ? '#4070ff' : '#f0f0f7',
-                                color: isRuntimeNode ? 'white' : 'inherit',
-                                border: isRuntimeNode ? '1px solid #2050dd' : '1px solid #e0e0e7',
+                                background: hasRuntimeCapabilities ? '#4070ff' : '#f0f0f7',
+                                color: hasRuntimeCapabilities ? 'white' : 'inherit',
+                                border: hasRuntimeCapabilities ? '1px solid #2050dd' : '1px solid #e0e0e7',
                                 borderRadius: '8px',
                                 padding: '10px',
                                 minWidth: '150px',
@@ -129,9 +127,14 @@ const DependencyGraph = () => {
                             type: 'smoothstep'
                         });
 
-                        // If remote has its own runtime, process it recursively
-                        if (matchingRuntime && instance.moduleCache?.has(remote.name)) {
-                            processRuntime(matchingRuntime, level + 2, remoteId);
+                        // If remote has runtime capabilities, process it recursively
+                        if (hasRuntimeCapabilities && instance.moduleCache?.has(remote.name)) {
+                            const matchingRuntime = window.__FEDERATION__.__INSTANCES__?.find(inst =>
+                                inst.name === remote.name
+                            );
+                            if (matchingRuntime) {
+                                processRuntime(matchingRuntime, level + 2, remoteId);
+                            }
                         }
                     }
                 });
