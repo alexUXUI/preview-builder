@@ -4,6 +4,7 @@ import "./MFEOverridesForm.css";
 import { Form } from "./form";
 import { Panel } from "./panel";
 import { TooltipWrapper } from "./tooltip";
+import DependencyGraph from "./DependencyGraph";
 
 export interface MFEOverride {
   name: string;
@@ -38,7 +39,7 @@ const extractVersionFromEntry = (entry: string): string => {
   return matches?.[1] || "";
 };
 
-const MFEOverridesForm: React.FC = () => {
+const MFEOverridesForm: any = () => {
   const [overrides, setOverrides] = useState<MFEOverride[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [inputErrors, setInputErrors] = useState<Record<string, string>>({});
@@ -49,23 +50,34 @@ const MFEOverridesForm: React.FC = () => {
 
   // Function to initialize overrides from __FEDERATION__
   const initializeFromFederation = () => {
-    if (
-      window.__FEDERATION__?.__INSTANCES__?.length &&
-      window.__FEDERATION__.__INSTANCES__[0]?.options?.remotes
-    ) {
-      const fedRemotes = window.__FEDERATION__.__INSTANCES__[0].options.remotes;
-      const newOverrides = fedRemotes.map((remote) => ({
-        name: remote.name,
-        // Extract version from entry URL (e.g., 1.1.4-preview)
-        version: extractVersionFromEntry(remote.entry),
-      }));
+    if (window.__FEDERATION__?.__INSTANCES__?.length) {
+      // Collect remotes from all federation instances
+      const allRemotes = window.__FEDERATION__.__INSTANCES__
+        .reduce((acc, instance) => {
+          if (instance?.options?.remotes) {
+            acc.push(...instance.options.remotes);
+          }
+          return acc;
+        }, [] as Array<{
+          name: string;
+          entry: string;
+          shareScope: string;
+          type: string;
+        }>);
 
-      setOverrides(newOverrides);
-      console.log(
-        "Initialized MFE overrides from __FEDERATION__:",
-        newOverrides
-      );
-      return true;
+      if (allRemotes.length > 0) {
+        const newOverrides = allRemotes.map((remote) => ({
+          name: remote.name,
+          version: extractVersionFromEntry(remote.entry),
+        }));
+
+        setOverrides(newOverrides);
+        console.log(
+          "Initialized MFE overrides from all __FEDERATION__ instances:",
+          newOverrides
+        );
+        return true;
+      }
     }
     return false;
   };
@@ -167,6 +179,9 @@ const MFEOverridesForm: React.FC = () => {
             >
               Add MFE
             </button>
+            <hr />
+            <h3>Dependency Graph</h3>
+            <DependencyGraph />
           </>
         )}
       </Panel>

@@ -22,7 +22,7 @@ export default defineConfig({
       name: "previewBuilder",
       exposes: {
         // expose the mfe.ts javascript module under the public name "App"
-        "./PreviewBuilder": "./src/mfe",
+        "./previewBuilder": "./src/mfe",
       },
     }),
   ],
