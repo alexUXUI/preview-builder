@@ -94,6 +94,12 @@
   font-weight: var(--typography-body-weight-medium);
   color: var(--colors-foreground-fg-gray-700);
   text-transform: capitalize;
+  transition: color 0.3s ease;
+}
+
+.override-item:has(.version-input:hover) .override-name,
+.override-item:has(.version-input:focus) .override-name {
+  color: #4070ff;
 }
 
 .apply-button {
@@ -121,6 +127,17 @@
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+}
+
+.clear {
+  width: 100%;
+  padding: 16px;
+  background: white;
+  background: linear-gradient(90deg, #ff4050 0%, #fea3ab 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 }
 
 .apply-button:hover {

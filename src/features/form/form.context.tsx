@@ -3,6 +3,7 @@ import { createContext, useCallback, useEffect, useState } from 'react';
 export interface MFEOverride {
     name: string;
     version: string;
+    isDirty?: boolean;
 }
 
 interface FormContextType {
@@ -11,8 +12,8 @@ interface FormContextType {
     inputErrors: Record<string, string>;
     setInputErrors: React.Dispatch<React.SetStateAction<Record<string, string>>>;
     validateSemver: (version: string) => boolean;
-    handleAddMFE: () => void;
     handleDetectMFEs: () => void;
+    clearForm: () => void;
 }
 
 const semverPattern = "(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(-[\\w.-]+)?(\\+[\\w.-]+)?";
@@ -34,6 +35,12 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return regex.test(version);
     }, []);
 
+    const clearForm = useCallback(() => {
+        setOverrides([]);
+        setInputErrors({});
+        localStorage.removeItem("hawaii_mfe_overrides");
+    }, []);
+
     const initializeFromFederation = useCallback(() => {
         if (window.__FEDERATION__?.__INSTANCES__?.length) {
             const allRemotes = window.__FEDERATION__.__INSTANCES__
@@ -53,6 +60,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 const newOverrides = allRemotes.map((remote: any) => ({
                     name: remote.name,
                     version: extractVersionFromEntry(remote.entry),
+                    isDirty: false
                 }));
 
                 setOverrides(newOverrides);
@@ -65,13 +73,6 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
         return false;
     }, []);
-
-    const handleAddMFE = useCallback(() => {
-        const newMFEName = prompt("Enter the name of the MFE:");
-        if (newMFEName && !overrides.some((o) => o.name === newMFEName)) {
-            setOverrides([...overrides, { name: newMFEName, version: "" }]);
-        }
-    }, [overrides]);
 
     const handleDetectMFEs = useCallback(() => {
         const initialized = initializeFromFederation();
@@ -89,7 +90,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 .filter(Boolean)
                 .map((override) => {
                     const [name, version] = override.split("_");
-                    return { name, version };
+                    return { name, version, isDirty: false };
                 });
             setOverrides(parsedOverrides);
         } else {
@@ -103,8 +104,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({ children
         inputErrors,
         setInputErrors,
         validateSemver,
-        handleAddMFE,
         handleDetectMFEs,
+        clearForm
     };
 
     return <FormContext.Provider value={value}>{children}</FormContext.Provider>;

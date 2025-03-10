@@ -24,6 +24,108 @@ const isRuntimeNode = (name: string): boolean => {
     );
 };
 
+const isNodeOverridden = (name: string): boolean => {
+    const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
+    return storedOverrides
+        .split(",")
+        .filter(Boolean)
+        .some(override => {
+            const [overrideName, version] = override.split("_");
+            return overrideName === name && version && version.length > 0;
+        });
+};
+
+interface RemoteVersionMap {
+    [instanceName: string]: {
+        [remoteName: string]: string;
+    };
+}
+
+let remoteVersionMap: RemoteVersionMap = {};
+let isVersionMapInitialized = false;
+
+const extractRemoteVersions = () => {
+    if (!window.__FEDERATION__?.__INSTANCES__?.length || isVersionMapInitialized) return;
+
+    window.__FEDERATION__.__INSTANCES__.forEach(instance => {
+        remoteVersionMap[instance.name] = {};
+
+        // Extract versions from moduleCache
+        if (instance.moduleCache) {
+            const moduleEntries = instance.moduleCache instanceof Map ?
+                Array.from(instance.moduleCache.entries()) :
+                Object.entries(instance.moduleCache);
+
+            moduleEntries.forEach(([, value]) => {
+                if (typeof value === 'object' && value !== null) {
+                    const remoteInfo = value.remoteInfo;
+                    if (remoteInfo && typeof remoteInfo === 'object') {
+                        const remoteName = remoteInfo.name || '';
+                        if (remoteName) {
+                            remoteVersionMap[instance.name][remoteName] =
+                                remoteInfo.buildVersion ||
+                                remoteInfo.version ||
+                                '';
+                        }
+                    }
+                }
+            });
+        }
+
+        // Also check remotes configuration for any missing versions
+        if (instance.options?.remotes) {
+            instance.options.remotes.forEach(remote => {
+                if (!remoteVersionMap[instance.name][remote.name] && remote.entry) {
+                    const versionMatch = remote.entry.match(/v(\d+\.\d+\.\d+)/);
+                    if (versionMatch) {
+                        remoteVersionMap[instance.name][remote.name] = versionMatch[1];
+                    }
+                }
+            });
+        }
+    });
+
+    isVersionMapInitialized = true;
+};
+
+const getNodeVersion = (name: string): string => {
+    const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
+    const override = storedOverrides
+        .split(",")
+        .filter(Boolean)
+        .find(override => {
+            const [overrideName] = override.split("_");
+            return overrideName === name;
+        });
+
+    if (override) {
+        const [, version] = override.split("_");
+        return `\nv${version}`;
+    }
+
+    // Look for version in remoteVersionMap
+    for (const instanceName in remoteVersionMap) {
+        const version = remoteVersionMap[instanceName][name];
+        if (version) return `\nv${version}`;
+    }
+
+    // If no version found in remoteVersionMap, check federation instances
+    if (window.__FEDERATION__?.__INSTANCES__?.length) {
+        const directInstance = window.__FEDERATION__.__INSTANCES__.find(instance => instance.name === name);
+        if (directInstance) {
+            if (directInstance.options?.id) {
+                const [, version] = directInstance.options.id.split(":");
+                if (version) return `\nv${version}`;
+            }
+            if (directInstance.options?.version) {
+                return `\nv${directInstance.options.version}`;
+            }
+        }
+    }
+
+    return "";
+};
+
 // Helper function to build the tree structure
 const buildTree = (instance: FederationInstance, level: number = 0): TreeNode => {
     const node: TreeNode = {
@@ -81,16 +183,16 @@ const treeToGraph = (node: TreeNode, allNodes: Node[], allEdges: Edge[], scale: 
     allNodes.push({
         id: node.id,
         data: {
-            label: `${node.name}${node.isRuntime ? ' (Runtime)' : ' (Remote)'}`
+            label: `${node.name} ${getNodeVersion(node.name)}`
         },
         position: {
             x: node.position * scale,
             y: node.level * 100
         },
         style: {
-            background: node.isRuntime ? '#4070ff' : '#f0f0f7',
-            color: node.isRuntime ? 'white' : 'inherit',
-            border: node.isRuntime ? '1px solid #2050dd' : '1px solid #e0e0e7',
+            background: isNodeOverridden(node.name) ? '#ff4757' : node.isRuntime ? '#4070ff' : '#f0f0f7',
+            color: isNodeOverridden(node.name) || node.isRuntime ? 'white' : 'inherit',
+            border: isNodeOverridden(node.name) ? '1px solid #ff3747' : node.isRuntime ? '1px solid #2050dd' : '1px solid #e0e0e7',
             borderRadius: '8px',
             padding: '10px',
             minWidth: '150px',
@@ -99,28 +201,31 @@ const treeToGraph = (node: TreeNode, allNodes: Node[], allEdges: Edge[], scale: 
     });
 
     node.children.forEach(child => {
+        treeToGraph(child, allNodes, allEdges, scale);
         allEdges.push({
             id: `${node.id}-${child.id}`,
             source: node.id,
             target: child.id,
-            animated: true,
-            style: { stroke: '#4070ff' },
-            type: 'smoothstep'
+            type: 'smoothstep',
+            style: {
+                stroke: '#b1b1b7'
+            }
         });
-        treeToGraph(child, allNodes, allEdges, scale);
     });
 };
 
 export const createGraph = (): GraphState => {
-    const allNodes: Node[] = [];
-    const allEdges: Edge[] = [];
+    extractRemoteVersions();
+
+    const nodes: Node[] = [];
+    const edges: Edge[] = [];
 
     if (window.__FEDERATION__?.__INSTANCES__?.length) {
         const rootInstance = window.__FEDERATION__.__INSTANCES__[0];
         const tree = buildTree(rootInstance);
         calculatePositions(tree);
-        treeToGraph(tree, allNodes, allEdges);
+        treeToGraph(tree, nodes, edges);
     }
 
-    return { nodes: allNodes, edges: allEdges };
+    return { nodes, edges };
 };

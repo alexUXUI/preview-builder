@@ -1,27 +1,26 @@
+import { Gear } from "./gear"
 
 export const NoMFEsFound = ({
     handleDetectMFEs,
-    handleAddMFE,
 }: any) => {
     return (
-        <div className="no-overrides">
+        <div className="no-overrides" style={{
+            position: 'relative'
+        }}>
+            <div className="gears-container" style={{ marginBottom: '20px', position: 'relative' }}>
+                <Gear />
+            </div>
             <p>No MFE overrides configured</p>
             <div className="override-actions">
                 <button
-                    className="detect-mfes-button"
+                    className="apply-button"
                     onClick={handleDetectMFEs}
                     type="button"
                 >
                     Detect MFEs
                 </button>
-                <button
-                    className="add-mfe-button"
-                    onClick={handleAddMFE}
-                    type="button"
-                >
-                    Add Custom
-                </button>
             </div>
+
         </div>
     )
 }

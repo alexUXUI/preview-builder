@@ -13,11 +13,11 @@ interface HostGroup {
 
 export const Form = () => {
   const formRef = useRef<HTMLFormElement>(null);
-  const { overrides, setOverrides, inputErrors, setInputErrors, validateSemver } = useForm();
+  const { overrides, setOverrides, inputErrors, setInputErrors, validateSemver, clearForm } = useForm();
 
   const handleVersionChange = (name: string, newVersion: string) => {
     const updatedOverrides = overrides.map((override) =>
-      override.name === name ? { ...override, version: newVersion } : override
+      override.name === name ? { ...override, version: newVersion, isDirty: true } : override
     );
     setOverrides(updatedOverrides);
 
@@ -49,19 +49,20 @@ export const Form = () => {
   const handleApply = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Check for validation errors
+    // Only validate fields that have been modified (isDirty) and have a value
     let hasErrors = false;
     const newErrors: Record<string, string> = {};
 
     for (const override of overrides) {
-      if (!override.version) {
-        // Empty value is now considered an error on submit
-        newErrors[override.name] = "Please enter a version number";
-        hasErrors = true;
-      } else if (!validateSemver(override.version)) {
-        newErrors[override.name] =
-          "Please enter a valid semantic version (e.g. 1.2.3 or 1.2.3-preview)";
-        hasErrors = true;
+      if (override.isDirty) {
+        if (!override.version) {
+          newErrors[override.name] = "Please enter a version number";
+          hasErrors = true;
+        } else if (!validateSemver(override.version)) {
+          newErrors[override.name] =
+            "Please enter a valid semantic version (e.g. 1.2.3 or 1.2.3-preview)";
+          hasErrors = true;
+        }
       }
     }
 
@@ -73,6 +74,13 @@ export const Form = () => {
         .map((override) => `${override.name}_${override.version}`)
         .join(",");
       localStorage.setItem("hawaii_mfe_overrides", overridesString);
+
+      // Reset dirty flags after successful save
+      const cleanOverrides = overrides.map(override => ({
+        ...override,
+        isDirty: false
+      }));
+      setOverrides(cleanOverrides);
 
       // No errors, proceed with applying changes
       window.location.reload();
@@ -115,7 +123,7 @@ export const Form = () => {
         </div>
         <div className="overrides-list">
           {hostGroups.map((group) => {
-            console.log(group);
+            // console.log(group);
             return (
               <div key={group.name} className="host-group">
                 <div style={{ width: '100%', display: 'flex', }}>
@@ -123,7 +131,7 @@ export const Form = () => {
                 </div>
                 <div className="host-remotes">
                   {group.remotes.map((remote) => {
-                    console.log(remote);
+                    // console.log(remote);
                     return (
                       <div key={remote.name} className="override-item">
                         <div style={{
@@ -136,8 +144,79 @@ export const Form = () => {
                           <label
                             htmlFor={`version-${remote.name}`}
                             className="override-name"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              width: '100%',
+                              justifyContent: 'space-between'
+                            }}
                           >
                             {remote.name}
+                            {(() => {
+                              const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
+                              const isOverridden = storedOverrides
+                                .split(",")
+                                .filter(Boolean)
+                                .some(override => {
+                                  const [name, version] = override.split("_");
+                                  return name === remote.name && version && version.length > 0;
+                                });
+                              return isOverridden ? (
+                                <span
+                                  style={{
+                                    background: '#ff4757',
+                                    color: 'white',
+                                    padding: '2px 6px 2px 6px',
+                                    borderRadius: '4px',
+                                    fontSize: '12px',
+                                    fontWeight: 'bold',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    gap: '6px',
+                                    margin: '0 10px 0 0'
+                                  }}
+                                >
+                                  overridden
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      const updatedOverrides = overrides.map(o =>
+                                        o.name === remote.name ? { ...o, version: '', isDirty: true } : o
+                                      );
+                                      setOverrides(updatedOverrides);
+
+                                      // Update localStorage
+                                      const storageOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
+                                      const filteredOverrides = storageOverrides
+                                        .split(",")
+                                        .filter(Boolean)
+                                        .filter(override => {
+                                          const [name] = override.split("_");
+                                          return name !== remote.name;
+                                        })
+                                        .join(",");
+                                      localStorage.setItem("hawaii_mfe_overrides", filteredOverrides);
+                                    }}
+                                    style={{
+                                      background: 'none',
+                                      border: 'none',
+                                      color: 'white',
+                                      cursor: 'pointer',
+                                      padding: '0',
+                                      // marginLeft: '2px',
+                                      fontSize: '12px',
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center'
+                                    }}
+                                    aria-label={`Clear override for ${remote.name}`}
+                                  >
+                                    ×
+                                  </button>
+                                </span>
+                              ) : null;
+                            })()}
                           </label>
                           <input
                             id={`version-${remote.name}`}
@@ -168,10 +247,19 @@ export const Form = () => {
             )
           })}
         </div>
+        <hr />
+        <div
+          style={{
+          }}
+        >
+          <button type="submit" className="apply-button">
+            Apply Overrides
+          </button>
+          <button type="button" className="apply-button clear" onClick={clearForm}>
+            Clear Overrides
+          </button>
+        </div>
 
-        <button type="submit" className="apply-button">
-          Apply Changes
-        </button>
       </div>
     </form>
   );

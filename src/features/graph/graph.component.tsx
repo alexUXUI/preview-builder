@@ -27,7 +27,7 @@ const DependencyGraph = () => {
         <div style={{ width: '100%', height: '470px' }}>
             <div style={{ display: 'flex', alignItems: 'center', margin: '0 0 25px 0' }}>
                 <h2 style={{ margin: '0 5px 0px 10px', }}>MFE Graph</h2>
-                <TooltipWrapper tooltip="Use this form to override the versions of your MFEs." />
+                <TooltipWrapper tooltip="MFE dependency graph. Illustrates the heirarchy of MFEs in the runtime." />
             </div>
             <ReactFlow
                 nodes={nodes}
