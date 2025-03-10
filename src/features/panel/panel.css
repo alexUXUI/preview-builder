@@ -1,0 +1,68 @@
+.mfe-overrides-panel.open {
+    right: 0;
+}
+
+.mfe-overrides-panel {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: fit-content;
+    background: white;
+    border-radius: 16px 0 0 16px;
+    padding: 12px;
+    box-shadow: -8px -8px 16px rgba(255, 255, 255, 0.8),
+        8px 8px 16px rgba(174, 174, 192, 0.08);
+    z-index: 100;
+    height: 650px;
+    overflow-y: scroll;
+}
+
+.close-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: #f8f9fc;
+    color: #464962;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: -4px -4px 8px rgba(255, 255, 255, 0.9),
+        4px 4px 8px rgba(174, 174, 192, 0.1);
+    transition: all 0.2s ease;
+}
+
+.close-button:hover {
+    background: #f0f3f9;
+}
+
+.toggle-button {
+    position: absolute;
+    left: -140px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: right center;
+    width: 120px;
+    height: 48px;
+    border: none;
+    border-radius: 12px 12px 0 0;
+    font-size: 15px;
+    cursor: pointer;
+    /* box-shadow: -3px -3px 7px rgba(255, 255, 255, 0.7),
+      3px 3px 5px rgba(174, 174, 192, 0.25); */
+    transition: all 0.2s ease;
+    z-index: 10;
+    /* Ensure it's above the panel */
+}
+
+.toggle-button:hover {
+    box-shadow: -4px -4px 8px rgba(255, 255, 255, 0.8),
+        4px 4px 8px rgba(174, 174, 192, 0.3);
+}
+
+.toggle-button:active {
+    /* box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+      inset -2px -2px 4px rgba(255, 255, 255, 0.3); */
+}

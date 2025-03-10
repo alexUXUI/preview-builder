@@ -1,0 +1,600 @@
+[
+    {
+        "hooks": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeInit": {
+                    "type": "beforeInit",
+                    "listeners": {}
+                },
+                "init": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeInitContainer": {
+                    "type": "beforeInitContainer",
+                    "listeners": {}
+                },
+                "initContainer": {
+                    "type": "initContainer",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeInit",
+                "init",
+                "beforeInitContainer",
+                "initContainer"
+            ]
+        },
+        "version": "0.10.0",
+        "moduleCache": {},
+        "loaderHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                }
+            },
+            "lifecycle": {
+                "getModuleInfo": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createScript": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createLink": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "fetch": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "loadEntryError": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "getModuleFactory": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "getModuleInfo",
+                "createScript",
+                "createLink",
+                "fetch",
+                "loadEntryError",
+                "getModuleFactory"
+            ]
+        },
+        "bridgeHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeBridgeRender",
+                "afterBridgeRender",
+                "beforeBridgeDestroy",
+                "afterBridgeDestroy"
+            ]
+        },
+        "name": "shell",
+        "options": {
+            "id": "shell:1.0.0",
+            "name": "shell",
+            "plugins": [
+                {
+                    "name": "snapshot-plugin"
+                },
+                {
+                    "name": "generate-preload-assets-plugin"
+                }
+            ],
+            "remotes": [
+                {
+                    "name": "product",
+                    "entry": "http://localhost:3001/mf-manifest.json",
+                    "shareScope": "default",
+                    "type": "global"
+                },
+                {
+                    "name": "previewBuilder",
+                    "entry": "http://localhost:1337/mf-manifest.json",
+                    "shareScope": "default",
+                    "type": "global"
+                }
+            ],
+            "shared": {},
+            "inBrowser": true
+        },
+        "shareScopeMap": {
+            "default": {}
+        }
+    },
+    {
+        "hooks": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeInit": {
+                    "type": "beforeInit",
+                    "listeners": {}
+                },
+                "init": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeInitContainer": {
+                    "type": "beforeInitContainer",
+                    "listeners": {}
+                },
+                "initContainer": {
+                    "type": "initContainer",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeInit",
+                "init",
+                "beforeInitContainer",
+                "initContainer"
+            ]
+        },
+        "version": "0.10.0",
+        "moduleCache": {},
+        "loaderHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "getModuleInfo": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createScript": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createLink": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "fetch": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "loadEntryError": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "getModuleFactory": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "getModuleInfo",
+                "createScript",
+                "createLink",
+                "fetch",
+                "loadEntryError",
+                "getModuleFactory"
+            ]
+        },
+        "bridgeHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeBridgeRender",
+                "afterBridgeRender",
+                "beforeBridgeDestroy",
+                "afterBridgeDestroy"
+            ]
+        },
+        "name": "product",
+        "options": {
+            "id": "product:1.0.0",
+            "name": "product",
+            "plugins": [
+                {
+                    "name": "snapshot-plugin"
+                },
+                {
+                    "name": "generate-preload-assets-plugin"
+                },
+                {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            ],
+            "remotes": [
+                {
+                    "alias": "service",
+                    "name": "service",
+                    "entry": "http://localhost:3002/mf-manifest.json",
+                    "externalType": "script",
+                    "shareScope": "default",
+                    "type": "global"
+                }
+            ],
+            "shared": {},
+            "inBrowser": true,
+            "shareStrategy": "version-first",
+            "version": "http://localhost:3001/mf-manifest.json"
+        },
+        "shareScopeMap": {
+            "default": {}
+        }
+    },
+    {
+        "hooks": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeInit": {
+                    "type": "beforeInit",
+                    "listeners": {}
+                },
+                "init": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeInitContainer": {
+                    "type": "beforeInitContainer",
+                    "listeners": {}
+                },
+                "initContainer": {
+                    "type": "initContainer",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeInit",
+                "init",
+                "beforeInitContainer",
+                "initContainer"
+            ]
+        },
+        "version": "0.10.0",
+        "moduleCache": {},
+        "loaderHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "getModuleInfo": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createScript": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createLink": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "fetch": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "loadEntryError": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "getModuleFactory": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "getModuleInfo",
+                "createScript",
+                "createLink",
+                "fetch",
+                "loadEntryError",
+                "getModuleFactory"
+            ]
+        },
+        "bridgeHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeBridgeRender",
+                "afterBridgeRender",
+                "beforeBridgeDestroy",
+                "afterBridgeDestroy"
+            ]
+        },
+        "name": "previewBuilder",
+        "options": {
+            "id": "previewBuilder:1.1.1",
+            "name": "previewBuilder",
+            "plugins": [
+                {
+                    "name": "snapshot-plugin"
+                },
+                {
+                    "name": "generate-preload-assets-plugin"
+                },
+                {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            ],
+            "remotes": [],
+            "shared": {},
+            "inBrowser": true,
+            "shareStrategy": "version-first"
+        },
+        "shareScopeMap": {}
+    },
+    {
+        "hooks": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeInit": {
+                    "type": "beforeInit",
+                    "listeners": {}
+                },
+                "init": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeInitContainer": {
+                    "type": "beforeInitContainer",
+                    "listeners": {}
+                },
+                "initContainer": {
+                    "type": "initContainer",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeInit",
+                "init",
+                "beforeInitContainer",
+                "initContainer"
+            ]
+        },
+        "version": "0.10.0",
+        "moduleCache": {},
+        "loaderHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "getModuleInfo": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createScript": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "createLink": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "fetch": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "loadEntryError": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "getModuleFactory": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "getModuleInfo",
+                "createScript",
+                "createLink",
+                "fetch",
+                "loadEntryError",
+                "getModuleFactory"
+            ]
+        },
+        "bridgeHook": {
+            "registerPlugins": {
+                "snapshot-plugin": {
+                    "name": "snapshot-plugin"
+                },
+                "generate-preload-assets-plugin": {
+                    "name": "generate-preload-assets-plugin"
+                },
+                "dynamic-remote-type-hints-plugin": {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            },
+            "lifecycle": {
+                "beforeBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeRender": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "beforeBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                },
+                "afterBridgeDestroy": {
+                    "type": "",
+                    "listeners": {}
+                }
+            },
+            "lifecycleKeys": [
+                "beforeBridgeRender",
+                "afterBridgeRender",
+                "beforeBridgeDestroy",
+                "afterBridgeDestroy"
+            ]
+        },
+        "name": "service",
+        "options": {
+            "id": "service:1.0.0",
+            "name": "service",
+            "plugins": [
+                {
+                    "name": "snapshot-plugin"
+                },
+                {
+                    "name": "generate-preload-assets-plugin"
+                },
+                {
+                    "name": "dynamic-remote-type-hints-plugin"
+                }
+            ],
+            "remotes": [],
+            "shared": {},
+            "inBrowser": true,
+            "shareStrategy": "version-first"
+        },
+        "shareScopeMap": {}
+    }
+]

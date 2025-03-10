@@ -1,4 +1,7 @@
 import { useRef, useEffect } from "react";
+import { TooltipWrapper } from "../tooltip/tooltip";
+import "./panel.css";
+import { Tabs } from "../tabs/tabs.comoponent";
 
 export const Panel = ({
   children,
@@ -52,4 +55,38 @@ export const Panel = ({
       <div className="mfe-overrides-form">{children}</div>
     </div>
   );
+};
+
+export const PanelButton = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <button
+      className="toggle-button"
+      onClick={onClick}
+      aria-label="Toggle MFE Overrides Panel"
+      type="button"
+    >
+      Preview
+    </button>
+  )
+};
+
+export const PanelHeader = ({
+  activeTab,
+  setActiveTab,
+}: {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}) => {
+  return (
+    <div className="panel-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex' }}>
+        <h3>Preview Builder</h3>
+        <TooltipWrapper tooltip="This tool allows you to compose an environment with specific versions of micro-frontend components. Use it to preview and test different MFE versions before they are deployed to production." />
+      </div>
+      <Tabs
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+      />
+    </div>
+  )
 };

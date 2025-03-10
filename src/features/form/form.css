@@ -1,0 +1,117 @@
+/** FORM */
+
+.version-input {
+  padding: 16px 20px;
+  margin: 10px 0 0 0;
+  background: white;
+  border: none;
+  border-radius: 10px;
+  color: #464962;
+  font-size: 16px;
+  box-shadow: inset 1px 1px 3px rgba(174, 174, 192, 0.2),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  width: 90%;
+}
+
+.version-input::placeholder {
+  color: #a0a8c5;
+}
+
+.mfe-overrides-form {
+  background: white;
+  width: 500px;
+  height: 80%;
+}
+
+.override-item {
+  background: white;
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.override-name {
+  display: block;
+  font-size: 18px;
+  font-weight: var(--typography-body-weight-medium);
+  color: var(--colors-foreground-fg-gray-700);
+  margin-bottom: 5px;
+}
+
+.apply-button {
+  width: 100%;
+  padding: 16px;
+  background: #fbfbff;
+  color: #4070ff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0px 0 10px 0;
+  cursor: pointer;
+  box-shadow: -3px -3px 7px rgba(255, 255, 255, 0.7),
+    3px 3px 5px rgba(174, 174, 192, 0.15);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.apply-button:hover {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 4px rgba(174, 174, 192, 0.2),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.7);
+}
+
+.apply-button:active {
+  transform: translateY(2px);
+  box-shadow: inset 3px 3px 6px rgba(174, 174, 192, 0.25),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.7);
+}
+
+
+/* Fix validation styles */
+.version-input:invalid:not(:placeholder-shown) {
+  border: 1px solid #ff4050;
+  background-color: #fff8f8;
+  box-shadow: inset 1px 1px 3px rgba(255, 64, 80, 0.2),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.7);
+}
+
+.version-input[aria-invalid="true"] {
+  border: 1px solid #ff4050;
+  background-color: #fff8f8;
+}
+
+.version-input[aria-invalid="true"]:focus {
+  outline: none;
+  box-shadow: inset 1px 1px 3px rgba(255, 64, 80, 0.2),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.7);
+}
+
+/* Error message container that appears when input is invalid */
+.error-message {
+  display: none;
+  color: #ff4050;
+  font-size: 13px;
+  margin-top: 6px;
+  padding-left: 4px;
+  font-weight: 500;
+}
+
+/* Show error message when invalid */
+.version-input[aria-invalid="true"]+.error-message {
+  display: block;
+}
+
+.form-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.form {
+  height: 100% !important;
+  /* background: #ff4050 !important; */
+}
