@@ -27,7 +27,7 @@
 }
 
 .radio-label.active {
-    color: #333;
+    color: #4070ff;
     box-shadow: inset -3px -3px 3px rgba(255, 255, 255, 0.5),
         inset 3px 3px 3px rgba(209, 205, 199, 0.5);
 }
@@ -36,6 +36,7 @@
     background: #fcfcfc;
     box-shadow: inset -3px -3px 3px rgba(255, 255, 255, 0.5),
         inset 3px 3px 3px rgba(209, 205, 199, 0.5);
+    color: #4070ff;
 }
 
 .radio-group::before {
