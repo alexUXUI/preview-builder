@@ -1,5 +1,5 @@
 import DependencyGraph from "../graph/graph.component";
-import { RemotesForm } from "../overrides-form/RemotesForm";
+import { RemotesForm } from "../overrides-form/form/RemotesForm";
 import "./tabs.css";
 
 export const TabContent = ({ activeTab }: { activeTab: string }) => {

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import type { MFERemote, FederationHostRuntime } from "./form.types";
-import type { MFEFormState, RemoteVersionField } from "./form.types";
-import { camelToKebabCase } from "../graph/graph";
+import type { MFERemote, FederationHostRuntime } from "../types/form.types";
+import type { MFEFormState, RemoteVersionField } from "../types/form.types";
+import { camelToKebabCase } from "../../graph/graph";
 
 interface OverridesFormContextType {
   hostGroups: FederationHostRuntime[];

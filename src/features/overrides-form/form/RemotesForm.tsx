@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useOverridesForm } from "./form.context";
-import { RemoteVersionInput } from "./RemoteVersionInput";
-import { TooltipWrapper } from "../tooltip/tooltip";
+import { TooltipWrapper } from "../../tooltip/tooltip";
+import { camelToKebabCase } from "../../graph/graph";
+import { useOverridesForm } from "../context/form.context";
+import { RemoteVersionInput } from "../input/RemoteVersionInput";
 import "./RemotesForm.css";
-import { camelToKebabCase } from "../graph/graph";
 
 export const RemotesForm = () => {
   const { hostGroups, formState } = useOverridesForm();

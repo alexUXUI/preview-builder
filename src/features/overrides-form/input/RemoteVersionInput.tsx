@@ -1,6 +1,6 @@
-import { camelToKebabCase } from "../graph/graph";
-import { useOverridesForm } from "./form.context";
-import "./RemotesForm.css";
+import { camelToKebabCase } from "../../graph/layout";
+import { useOverridesForm } from "../context/form.context";
+import "../form/RemotesForm.css";
 
 interface RemoteVersionInputProps {
   remoteName: string;

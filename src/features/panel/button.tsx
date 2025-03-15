@@ -1,4 +1,4 @@
-import { useOverridesForm } from "../overrides-form/form.context";
+import { useOverridesForm } from "../overrides-form/context/form.context";
 
 export const PanelButton = ({ onClick }: { onClick: () => void }) => {
   const formContext = useOverridesForm();
