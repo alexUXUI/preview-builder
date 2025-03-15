@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react";
-import { Panel, PanelButton, PanelHeader } from "./panel/panel";
-import { Tabs, TabContent } from "./tabs/tabs.comoponent";
+import { Panel } from "./panel/panel";
+import { TabContent } from "./tabs/tabs.comoponent";
+import { PanelButton } from "./panel/button";
+import { PanelHeader } from "./panel/header";
 import "./index.css";
 
 export const PreviewBuilder = () => {

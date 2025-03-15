@@ -1,8 +1,5 @@
-import { useRef, useEffect } from "react";
-import { TooltipWrapper } from "../tooltip/tooltip";
-import { Tabs } from "../tabs/tabs.comoponent";
-import { useContext } from "react";
-import { useOverridesForm } from "../overrides-form/form.context";
+import { useRef } from "react";
+import { usePanelInteractions } from "./panel.hook";
 import "./panel.css";
 
 export const Panel = ({
@@ -15,32 +12,7 @@ export const Panel = ({
   isOpen: boolean;
 }) => {
   const panelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        panelRef.current &&
-        !panelRef.current.contains(event.target as Node)
-      ) {
-        handleClose();
-      }
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && isOpen) {
-        handleClose();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isOpen, handleClose]);
-
+  usePanelInteractions(panelRef, handleClose, isOpen);
   return (
     <div
       className={`mfe-overrides-panel ${isOpen ? "open" : ""}`}
@@ -55,43 +27,6 @@ export const Panel = ({
         ×
       </button>
       <div className="mfe-overrides-form">{children}</div>
-    </div>
-  );
-};
-
-export const PanelButton = ({ onClick }: { onClick: () => void }) => {
-  const formContext = useOverridesForm();
-  const activeOverrides = formContext.activeOverridesCount;
-
-  return (
-    <button
-      className="toggle-button"
-      onClick={onClick}
-      aria-label="Toggle MFE Overrides Panel"
-      type="button"
-    >
-      Preview
-      {activeOverrides > 0 && (
-        <span className="badge-counter">{activeOverrides}</span>
-      )}
-    </button>
-  );
-};
-
-export const PanelHeader = ({
-  activeTab,
-  setActiveTab,
-}: {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-}) => {
-  return (
-    <div className="panel-header">
-      <div className="panel-header__title-container">
-        <h1 className="panel-header__title">Preview Builder</h1>
-        <TooltipWrapper tooltip="Compose an environment with specific versions of micro-frontend components. Use it to preview and test different MFE versions before they are deployed to production." />
-      </div>
-      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
   );
 };

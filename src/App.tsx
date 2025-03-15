@@ -1,4 +1,4 @@
-import { PreviewBuilder } from "./features";
+import { PreviewBuilder } from "./features/preview-builder";
 import { FormProvider } from "./features/overrides-form/form.context";
 import "./App.css";
 
