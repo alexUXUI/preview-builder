@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { TooltipWrapper } from "../tooltip/tooltip";
 import { Tabs } from "../tabs/tabs.comoponent";
 import { useContext } from "react";
-import { FormContext } from "../overrides/form.context";
+import { useOverridesForm } from "../overrides-form/form.context";
 import "./panel.css";
 
 export const Panel = ({
@@ -60,9 +60,9 @@ export const Panel = ({
 };
 
 export const PanelButton = ({ onClick }: { onClick: () => void }) => {
-  const formContext = useContext(FormContext);
-  const activeOverrides =
-    formContext?.overrides.filter((override) => override.version)?.length || 0;
+  const formContext = useOverridesForm();
+  console.log(formContext);
+  const activeOverrides = formContext.activeOverridesCount;
 
   return (
     <button

@@ -1,9 +1,9 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import type { MFERemote, FederationHostRuntime } from "./form.types";
 import type { MFEFormState, RemoteVersionField } from "./form.types";
 import { camelToKebabCase } from "../graph/graph";
 
-interface YoFormContextType {
+interface OverridesFormContextType {
   hostGroups: FederationHostRuntime[];
   formState: MFEFormState;
   updateRemoteVersion: (remoteName: string, version: string | null) => void;
@@ -11,15 +11,32 @@ interface YoFormContextType {
   handleFieldFocus: (remoteName: string) => void;
   handleFieldBlur: (remoteName: string) => void;
   hasValidChanges: boolean;
+  activeOverridesCount: number; // New count for active overrides
 }
 
-const YoFormContext = createContext<YoFormContextType | undefined>(undefined);
+const OverridesFormContext = createContext<
+  OverridesFormContextType | undefined
+>(undefined);
 
 // Improved semver validation to allow for preview versions
 const validateSemver = (version: string | null): boolean => {
   if (version === null) return true;
   // Basic semver validation with optional prerelease tag
   return /^\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$/.test(version);
+};
+
+// Helper to count active valid overrides in localStorage
+const countActiveOverrides = (remotes: Set<string>): number => {
+  const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
+  if (!storedOverrides) return 0;
+
+  return storedOverrides
+    .split(",")
+    .filter(Boolean)
+    .filter((override) => {
+      const [name, version] = override.split("_");
+      return name && version && remotes.has(name);
+    }).length;
 };
 
 const getHostGroups = (): FederationHostRuntime[] => {
@@ -50,7 +67,7 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [hostGroups] = useState<FederationHostRuntime[]>(getHostGroups());
-
+  const [activeOverridesCount, setActiveOverridesCount] = useState(0);
   const [formState, setFormState] = useState<MFEFormState>(() => {
     const remoteVersions: Record<string, RemoteVersionField> = {};
 
@@ -61,7 +78,6 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
       .split(",")
       .filter(Boolean)
       .reduce((acc, override) => {
-        console.log("override", override);
         const [name, version] = override.split("_");
         if (name && version) {
           acc[camelToKebabCase(name)] = version;
@@ -85,8 +101,25 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
         };
       }
     }
+
     return { remoteVersions };
   });
+
+  // Update active overrides count whenever localStorage changes
+  useEffect(() => {
+    const remoteNames = new Set(Object.keys(formState.remoteVersions));
+
+    setActiveOverridesCount(countActiveOverrides(remoteNames));
+
+    const storageListener = () => {
+      setActiveOverridesCount(countActiveOverrides(remoteNames));
+    };
+
+    window.addEventListener("storage", storageListener);
+    return () => {
+      window.removeEventListener("storage", storageListener);
+    };
+  }, [formState.remoteVersions]);
 
   // Handle when a field receives focus
   const handleFieldFocus = (remoteName: string) => {
@@ -215,15 +248,18 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
     handleFieldFocus,
     handleFieldBlur,
     hasValidChanges,
+    activeOverridesCount,
   };
 
   return (
-    <YoFormContext.Provider value={value}>{children}</YoFormContext.Provider>
+    <OverridesFormContext.Provider value={value}>
+      {children}
+    </OverridesFormContext.Provider>
   );
 };
 
-export const useYoForm = () => {
-  const context = useContext(YoFormContext);
+export const useOverridesForm = () => {
+  const context = useContext(OverridesFormContext);
   if (context === undefined) {
     throw new Error("useForm must be used within a FormProvider");
   }

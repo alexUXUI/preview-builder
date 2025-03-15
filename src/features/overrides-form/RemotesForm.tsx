@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useYoForm } from "./form.context";
+import { useOverridesForm } from "./form.context";
 import { RemoteVersionInput } from "./RemoteVersionInput";
 import { TooltipWrapper } from "../tooltip/tooltip";
 import "./RemotesForm.css";
 import { camelToKebabCase } from "../graph/graph";
 
 export const RemotesForm = () => {
-  const { hostGroups, formState } = useYoForm();
+  const { hostGroups, formState } = useOverridesForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Check if there are any invalid fields

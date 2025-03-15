@@ -1,5 +1,5 @@
 import { camelToKebabCase } from "../graph/graph";
-import { useYoForm } from "./form.context";
+import { useOverridesForm } from "./form.context";
 import "./RemotesForm.css";
 
 interface RemoteVersionInputProps {
@@ -12,7 +12,7 @@ export const RemoteVersionInput = ({
   id,
 }: RemoteVersionInputProps) => {
   const { formState, updateRemoteVersion, handleFieldFocus, handleFieldBlur } =
-    useYoForm();
+    useOverridesForm();
 
   const field = formState.remoteVersions[camelToKebabCase(remoteName)] || {
     value: "",
