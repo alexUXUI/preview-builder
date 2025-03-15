@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { TooltipWrapper } from "../tooltip/tooltip";
 import { Tabs } from "../tabs/tabs.comoponent";
 import { useContext } from "react";
-import { FormContext } from "../form/form.context";
+import { FormContext } from "../overrides/form.context";
 import "./panel.css";
 
 export const Panel = ({
@@ -61,7 +61,8 @@ export const Panel = ({
 
 export const PanelButton = ({ onClick }: { onClick: () => void }) => {
   const formContext = useContext(FormContext);
-  const activeOverrides = formContext?.overrides.filter(override => override.version)?.length || 0;
+  const activeOverrides =
+    formContext?.overrides.filter((override) => override.version)?.length || 0;
 
   return (
     <button
@@ -72,27 +73,10 @@ export const PanelButton = ({ onClick }: { onClick: () => void }) => {
     >
       Preview
       {activeOverrides > 0 && (
-        <span
-          style={{
-            marginLeft: '8px',
-            background: '#ff4757',
-            color: 'white',
-            borderRadius: '50%',
-            width: '20px',
-            height: '20px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '12px',
-            fontWeight: 'bold',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-          }}
-        >
-          {activeOverrides}
-        </span>
+        <span className="badge-counter">{activeOverrides}</span>
       )}
     </button>
-  )
+  );
 };
 
 export const PanelHeader = ({
@@ -103,15 +87,12 @@ export const PanelHeader = ({
   setActiveTab: (tab: string) => void;
 }) => {
   return (
-    <div className="panel-header" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <h1 style={{ margin: '0 7px 0 10px', width: 'max-content' }}>Preview Builder</h1>
+    <div className="panel-header">
+      <div className="panel-header__title-container">
+        <h1 className="panel-header__title">Preview Builder</h1>
         <TooltipWrapper tooltip="Compose an environment with specific versions of micro-frontend components. Use it to preview and test different MFE versions before they are deployed to production." />
       </div>
-      <Tabs
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
+      <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
     </div>
-  )
+  );
 };

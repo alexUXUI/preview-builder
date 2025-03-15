@@ -27,19 +27,12 @@
   height: 100%;
 }
 
-.overrides-list {
-  /* display: flex; */
-  /* flex-direction: row; */
-  justify-content: space-between;
-}
-
 .host-group {
   /* background: #fcfcfc; */
   border-radius: 16px;
   padding: 12px;
   margin-bottom: 20px;
-  box-shadow: 4px 4px 4px #f8f8f8,
-    -1px -1px 1px #ffffff;
+  box-shadow: 4px 4px 4px #f8f8f8, -1px -1px 1px #ffffff;
   height: fit-content;
 }
 
@@ -52,14 +45,12 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
+  /* text-fill-color: transparent; */
 }
-
-
 
 .host-type {
   color: #ffffff;
-  font-size: .5em;
+  font-size: 0.5em;
   font-weight: 400;
   text-transform: capitalize;
   background: #464962;
@@ -111,7 +102,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
+  /* text-fill-color: transparent; */
   margin: 0;
   font-size: 1.2em;
 
@@ -137,7 +128,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
+  /* text-fill-color: transparent; */
 }
 
 .apply-button:hover {
@@ -151,7 +142,6 @@
   box-shadow: inset 3px 3px 6px rgba(174, 174, 192, 0.25),
     inset -2px -2px 5px rgba(255, 255, 255, 0.7);
 }
-
 
 /* Fix validation styles */
 .version-input:invalid:not(:placeholder-shown) {
@@ -183,7 +173,7 @@
 }
 
 /* Show error message when invalid */
-.version-input[aria-invalid="true"]+.error-message {
+.version-input[aria-invalid="true"] + .error-message {
   display: block;
 }
 

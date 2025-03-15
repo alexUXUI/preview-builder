@@ -1,14 +1,12 @@
 .mfe-overrides-container h1 {
   margin: 0 0 16px 0;
-  font-size: 2em;
   font-weight: 600;
   text-transform: capitalize;
   background: linear-gradient(90deg, #4070ff 0%, #8ca9ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
-
+  /* text-fill-color: transparent; */
 }
 
 .mfe-overrides-container * {
@@ -25,7 +23,6 @@
   color: var(--colors-app-blue-500);
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 }
-
 
 /* Add these styles for the hr element */
 .mfe-overrides-form hr {
@@ -97,7 +94,7 @@
 }
 
 .tab-container button {
-  margin: 0 2px 0 2px
+  margin: 0 2px 0 2px;
 }
 
 .panel-tabs {
@@ -105,8 +102,6 @@
   flex-direction: row;
   justify-content: space-between;
 }
-
-.panel-tabs h3 {}
 
 .active {
   transform: translateY(1px);
