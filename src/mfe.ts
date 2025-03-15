@@ -2,9 +2,8 @@ import { bootstrap } from "./bootstrap";
 
 export default {
   bootstrap() {
-    console.log("[preview builder] Bootstrapping...");
-
     setTimeout(() => {
+      console.log("[preview builder] Bootstrapping...");
       bootstrap();
     }, 1000);
   },

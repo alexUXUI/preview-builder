@@ -61,7 +61,6 @@ export const Panel = ({
 
 export const PanelButton = ({ onClick }: { onClick: () => void }) => {
   const formContext = useOverridesForm();
-  console.log(formContext);
   const activeOverrides = formContext.activeOverridesCount;
 
   return (

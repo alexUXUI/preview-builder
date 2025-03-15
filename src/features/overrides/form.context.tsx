@@ -63,8 +63,6 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
         }>
       );
 
-      console.log("All remotes from __FEDERATION__ instances:", allRemotes);
-
       if (allRemotes.length > 0) {
         const newOverrides = allRemotes.map((remote: any) => ({
           name: remote.name,
@@ -73,10 +71,6 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
         }));
 
         setOverrides(newOverrides);
-        console.log(
-          "Initialized MFE overrides from all __FEDERATION__ instances:",
-          newOverrides
-        );
         return true;
       }
     }
