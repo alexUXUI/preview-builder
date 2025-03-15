@@ -1,4 +1,4 @@
-.remotes-form {
+/* .remotes-form {
   padding: 0 0 0px 0;
   display: flex;
   flex-direction: column;
@@ -105,7 +105,7 @@
 .apply-button.disabled {
   color: black;
   cursor: not-allowed;
-}
+} */
 
 .reset-button {
   /* background: transparent; */
@@ -117,7 +117,7 @@
   transition: all 0.2s ease; */
 }
 
-.reset-button:hover {
+/* .reset-button:hover {
   color: #ff4050;
   border-color: #ff4050;
 }
@@ -126,11 +126,9 @@
   cursor: not-allowed;
 }
 
-/* NEW NEW NEW */
-
 .remote-version-input {
   position: relative;
-}
+} */
 
 .version-input {
   /* width: 100%;
@@ -141,20 +139,17 @@
   transition: all 0.2s ease;
   outline: none; */
 }
-
-/* Focused state */
+/* 
 .version-input.is-focused {
   border-color: #4070ff;
   box-shadow: 0 0 0 2px rgba(64, 112, 255, 0.2);
 }
 
-/* Invalid state */
 .version-input.is-invalid {
   border-color: #ff4757;
   background-color: rgba(255, 71, 87, 0.05);
 }
 
-/* Valid state with changes */
 .version-input.is-valid {
   border-color: #28a745;
   background-color: rgba(40, 167, 69, 0.05);
@@ -166,7 +161,6 @@
   margin-top: 4px;
 }
 
-/* Focus styles */
 .remotes-table tr.focusing td {
   background-color: rgba(64, 112, 255, 0.05);
 }
@@ -176,19 +170,14 @@
   font-weight: 600 !important;
 }
 
-/* Input in focus state is styled in RemoteVersionInput component */
-
-/* Invalid state */
 .remotes-table tr.invalid td {
   background-color: rgba(255, 71, 87, 0.05);
 }
 
-/* Modified state */
 .remotes-table tr.modified td {
   background-color: rgba(64, 112, 255, 0.02);
 }
 
-/* Apply button states */
 .apply-button.ready {
   background-color: #34c759;
   color: white;
@@ -217,7 +206,6 @@
   cursor: not-allowed;
 }
 
-/* Fix for reset button */
 .reset-button {
   background: transparent;
   color: #a0a8c5;
@@ -240,4 +228,4 @@
 }
 .host-title {
   display: flex;
-}
+} */

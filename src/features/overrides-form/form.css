@@ -1,6 +1,4 @@
-/** FORM */
-
-.version-input {
+/* .version-input {
   padding: 8px 0 8px 8px;
   background: white;
   border: none;
@@ -26,7 +24,6 @@
 }
 
 .host-group {
-  /* background: #fcfcfc; */
   border-radius: 16px;
   padding: 12px;
   margin-bottom: 20px;
@@ -71,10 +68,6 @@
 
 .override-item {
   background: white;
-  /* padding: 16px; */
-  border-radius: 12px;
-  /* box-shadow: inset 4px 4px 8px #f1f1f1,
-    inset -4px -4px 8px #ffffff; */
 }
 
 .override-name {
@@ -100,11 +93,9 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* text-fill-color: transparent; */
   margin: 0;
   font-size: 1.2em;
 
-  /* color: #4070ff; */
   border: none;
   border-radius: 14px;
   font-size: 16px;
@@ -126,7 +117,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* text-fill-color: transparent; */
 }
 
 .apply-button:hover {
@@ -141,7 +131,6 @@
     inset -2px -2px 5px rgba(255, 255, 255, 0.7);
 }
 
-/* Fix validation styles */
 .version-input:invalid:not(:placeholder-shown) {
   border: 1px solid #ff4050;
   background-color: #fff8f8;
@@ -160,7 +149,6 @@
     inset -1px -1px 3px rgba(255, 255, 255, 0.7);
 }
 
-/* Error message container that appears when input is invalid */
 .error-message {
   display: none;
   color: #ff4050;
@@ -170,7 +158,6 @@
   font-weight: 500;
 }
 
-/* Show error message when invalid */
 .version-input[aria-invalid="true"] + .error-message {
   display: block;
 }
@@ -184,7 +171,6 @@
 
 .form {
   height: 100% !important;
-  /* background: #ff4050 !important; */
 }
 
 .remotes-table {
@@ -223,18 +209,16 @@ thead {
   text-align: left;
 }
 
-/* Set specific widths for the columns */
 .remotes-table th:first-child,
 .remotes-table td:first-child {
-  width: 60%; /* Adjust as needed */
+  width: 60%;
 }
 
 .remotes-table th:last-child,
 .remotes-table td:last-child {
-  width: 40%; /* Adjust as needed */
+  width: 40%;
 }
 
-/* For the input cells */
 .remote-input {
   width: 100%;
-}
+} */

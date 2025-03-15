@@ -149,7 +149,7 @@ const buildTree = (
     children: [],
     level,
     position: 0,
-    width: 1,
+    width: 0.5,
     isRuntime: true,
   };
 
@@ -174,7 +174,7 @@ const buildTree = (
         children: [],
         level: level + 1,
         position: 0,
-        width: 1,
+        width: 0.5,
         isRuntime: hasRuntimeCapabilities,
       };
     });
@@ -197,6 +197,7 @@ const calculatePositions = (node: TreeNode, startX: number = 0): number => {
   const childWidths: number[] = [];
 
   // First pass: calculate all child widths
+  // biome-ignore lint/complexity/noForEach: <explanation>
   node.children.forEach((child) => {
     const childWidth = calculatePositions(child, 0); // Calculate width without positioning
     childWidths.push(childWidth);
@@ -226,7 +227,7 @@ const treeToGraph = (
   node: TreeNode,
   allNodes: Node[],
   allEdges: Edge[],
-  scale: number = 80 // Reduced scale factor for more compact layout
+  scale: number = 60 // Reduced scale factor for more compact layout
 ): void => {
   allNodes.push({
     id: node.id,
@@ -257,6 +258,7 @@ const treeToGraph = (
     },
   });
 
+  // biome-ignore lint/complexity/noForEach: <explanation>
   node.children.forEach((child) => {
     treeToGraph(child, allNodes, allEdges, scale);
     allEdges.push({

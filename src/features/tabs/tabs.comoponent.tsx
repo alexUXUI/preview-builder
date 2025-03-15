@@ -1,23 +1,15 @@
-import { FormIndex } from "../overrides";
 import DependencyGraph from "../graph/graph.component";
-import "./tabs.css";
 import { RemotesForm } from "../overrides-form/RemotesForm";
-import { FormProvider as FP } from "../overrides/form.context";
+import "./tabs.css";
 
 export const TabContent = ({ activeTab }: { activeTab: string }) => {
   switch (activeTab) {
-    // case "form":
-    //   return (
-    //     <FP>
-    //       <FormIndex />
-    //     </FP>
-    //   );
     case "graph":
       return <DependencyGraph />;
     case "overrides":
       return <RemotesForm />;
     default:
-      return <FormIndex />;
+      return <RemotesForm />;
   }
 };
 
