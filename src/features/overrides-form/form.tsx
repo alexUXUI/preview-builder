@@ -1,12 +1,10 @@
 import type React from "react";
 import { useYoForm } from "./form.context";
-import type { MFERemote, MFEOptions } from "./form.types";
 
 export const OverridesForm: React.FC = () => {
   const { hostGroups, formState, updateRemoteVersion } = useYoForm();
   return (
     <div>
-      SIIICK
       {hostGroups.map((hostGroup) => (
         <div key={hostGroup.name}>
           <h3>{hostGroup.name}</h3>

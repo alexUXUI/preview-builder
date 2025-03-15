@@ -1,31 +1,53 @@
+import { camelToKebabCase } from "../graph/graph";
 import { useYoForm } from "./form.context";
+import "./RemotesForm.css";
 
 interface RemoteVersionInputProps {
   remoteName: string;
+  id?: string;
 }
 
-export const RemoteVersionInput = ({ remoteName }: RemoteVersionInputProps) => {
+export const RemoteVersionInput = ({
+  remoteName,
+  id,
+}: RemoteVersionInputProps) => {
   const { formState, updateRemoteVersion, handleFieldFocus, handleFieldBlur } =
     useYoForm();
-  const field = formState.remoteVersions[remoteName];
+
+  const field = formState.remoteVersions[camelToKebabCase(remoteName)] || {
+    value: "",
+    isValid: true,
+    isFocusing: false,
+    isDirty: false,
+    isTouched: false,
+    error: undefined,
+  };
 
   return (
     <div className="remote-version-input">
       <input
+        id={id || remoteName}
         type="text"
-        value={field?.value || ""}
+        value={field.value || ""}
         onChange={(e) =>
-          updateRemoteVersion(remoteName, e.target.value || null)
+          updateRemoteVersion(
+            camelToKebabCase(remoteName),
+            e.target.value || null
+          )
         }
-        onFocus={() => handleFieldFocus(remoteName)}
-        onBlur={() => handleFieldBlur(remoteName)}
-        placeholder="0.0.0-0"
-        className={`version-input ${
-          !field?.isValid && !field?.isFocusing ? "has-error" : ""
+        onFocus={() => handleFieldFocus(camelToKebabCase(remoteName))}
+        onBlur={() => handleFieldBlur(camelToKebabCase(remoteName))}
+        placeholder="1.0.0"
+        className={`version-input ${field.isFocusing ? "is-focused" : ""} ${
+          !field.isValid && field.isTouched && !field.isFocusing
+            ? "is-invalid"
+            : ""
+        } ${
+          field.isValid && field.isDirty && !field.isFocusing ? "is-valid" : ""
         }`}
       />
-      {!field?.isValid && !field?.isFocusing && (
-        <div className="error-message">{field?.error}</div>
+      {!field.isValid && field.isTouched && !field.isFocusing && (
+        <div className="error-message">{field.error}</div>
       )}
     </div>
   );

@@ -73,6 +73,7 @@ export interface MFEFormState {
 export interface FederationHostRuntime {
   options: MFEOptions;
   name: string;
+  manifestName: string;
   version: string;
   moduleCache: Record<string, unknown>;
   remotes: MFERemote[];

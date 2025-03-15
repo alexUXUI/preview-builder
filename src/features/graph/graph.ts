@@ -1,5 +1,5 @@
-import { Node, Edge } from "reactflow";
-import { FederationInstance } from "./types";
+import type { Node, Edge } from "reactflow";
+import type { FederationInstance } from "./types";
 
 interface GraphState {
   nodes: Node[];
@@ -24,14 +24,20 @@ const isRuntimeNode = (name: string): boolean => {
   );
 };
 
+export const camelToKebabCase = (str: string): string => {
+  return str.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
+};
+
 const isNodeOverridden = (name: string): boolean => {
+  // Convert the node name to kebab-case for localStorage comparison
+  const kebabName = camelToKebabCase(name);
   const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
   return storedOverrides
     .split(",")
     .filter(Boolean)
     .some((override) => {
       const [overrideName, version] = override.split("_");
-      return overrideName === name && version && version.length > 0;
+      return overrideName === kebabName && version && version.length > 0;
     });
 };
 
@@ -48,6 +54,7 @@ const extractRemoteVersions = () => {
   if (!window.__FEDERATION__?.__INSTANCES__?.length || isVersionMapInitialized)
     return;
 
+  // biome-ignore lint/complexity/noForEach: <explanation>
   window.__FEDERATION__.__INSTANCES__.forEach((instance) => {
     remoteVersionMap[instance.name] = {};
 
@@ -58,6 +65,7 @@ const extractRemoteVersions = () => {
           ? Array.from(instance.moduleCache.entries())
           : Object.entries(instance.moduleCache);
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       moduleEntries.forEach(([, value]) => {
         if (typeof value === "object" && value !== null) {
           const remoteInfo = value.remoteInfo;
@@ -74,6 +82,7 @@ const extractRemoteVersions = () => {
 
     // Also check remotes configuration for any missing versions
     if (instance.options?.remotes) {
+      // biome-ignore lint/complexity/noForEach: <explanation>
       instance.options.remotes.forEach((remote) => {
         if (!remoteVersionMap[instance.name][remote.name] && remote.entry) {
           const versionMatch = remote.entry.match(/v(\d+\.\d+\.\d+)/);

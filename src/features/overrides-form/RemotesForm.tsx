@@ -3,10 +3,10 @@ import { useYoForm } from "./form.context";
 import { RemoteVersionInput } from "./RemoteVersionInput";
 import { TooltipWrapper } from "../tooltip/tooltip";
 import "./RemotesForm.css";
+import { camelToKebabCase } from "../graph/graph";
 
 export const RemotesForm = () => {
   const { hostGroups, formState } = useYoForm();
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Check if there are any invalid fields
@@ -45,71 +45,92 @@ export const RemotesForm = () => {
     return <p>No MFE remotes detected in this application.</p>;
   }
 
+  const capitalizeFirstLetter = (str: string): string => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="remotes-form">
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          margin: "0 0 15px 0",
-        }}
-      >
-        <h2 style={{ margin: "0 2.5px 0px 10px" }}>MFE Overrides</h2>
-        <TooltipWrapper tooltip="Use this form to override the versions of your MFEs." />
-      </div>
-      {hostGroups.map((group) => (
-        <div key={group.name} className="host-group">
-          <div className="host-group-header">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <h4
-                style={{
-                  margin: "0 2px 0 0",
-                }}
-              >
-                {group.name}
-              </h4>
-              <TooltipWrapper
-                tooltip={`This is the ${group.name} host application running version ${group.version}. It loads the micro-frontend components listed below.`}
-              />
+      <div>
+        {hostGroups.map((group) => (
+          <div key={group.manifestName} className="host-group">
+            <div className="host-group-header">
+              <div className="host-title">
+                <h4>{capitalizeFirstLetter(group.name)}</h4>
+                <TooltipWrapper
+                  tooltip={`This is the ${group.manifestName} host application running version ${group.version}. It loads the micro-frontend components listed below.`}
+                />
+              </div>
+              <div className="host-group-info">
+                <span className="host-version">v{group.version}</span>
+              </div>
             </div>
-            <div className="host-group-info">
-              <span className="host-version">v{group.version}</span>
-            </div>
-          </div>
+            <table className="remotes-table">
+              <thead>
+                <tr>
+                  <th>Remote</th>
+                  <th>Version</th>
+                </tr>
+              </thead>
+              {group.remotes.length > 0 ? (
+                <tbody>
+                  {group.remotes.map((remote) => {
+                    if (remote.name === "preview-builder") return null;
+                    if (remote.name === "shell") return null;
 
-          {group.remotes.length > 0 ? (
-            <div className="remotes-list">
-              {group.remotes.map((remote) => {
-                if (remote.name === "previewBuilder") return null;
-                return (
-                  <div key={remote.name} className="remote-item">
-                    <div className="remote-info">
-                      <label className="remote-label" htmlFor={remote.name}>
-                        {remote.name}
-                      </label>
-                      <RemoteVersionInput remoteName={remote.name} />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="no-remotes">No remote MFEs found for this host.</p>
-          )}
-        </div>
-      ))}
+                    // Get field state for this remote
+                    const field = formState.remoteVersions[remote.name];
+                    const isFocusing = field?.isFocusing || false;
+                    const isInvalid = field?.isTouched && !field?.isValid;
+                    const isDirty = field?.isDirty || false;
+
+                    return (
+                      <tr
+                        key={remote.name}
+                        className={`
+                          ${isFocusing ? "focusing" : ""}
+                          ${isInvalid ? "invalid" : ""}
+                          ${isDirty ? "modified" : ""}
+                        `}
+                      >
+                        <td>
+                          <label
+                            htmlFor={remote.name}
+                            className={
+                              isFocusing
+                                ? "focusing-label remote-label"
+                                : "remote-label"
+                            }
+                          >
+                            {capitalizeFirstLetter(
+                              camelToKebabCase(remote.name)
+                            )}
+                          </label>
+                        </td>
+                        <td>
+                          <RemoteVersionInput remoteName={remote.name} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              ) : null}
+            </table>
+          </div>
+        ))}
+      </div>
 
       <div className="form-actions">
         <button
           type="submit"
-          className={`apply-button ${
-            hasInvalidFields || !hasChanges || isSubmitting ? "disabled" : ""
-          }`}
+          className={`
+            apply-button 
+            ${hasInvalidFields ? "invalid" : ""}
+            ${!hasChanges ? "no-changes" : ""}
+            ${isSubmitting ? "submitting" : ""}
+            ${hasChanges && !hasInvalidFields && !isSubmitting ? "ready" : ""}
+          `}
           disabled={hasInvalidFields || !hasChanges || isSubmitting}
         >
           {isSubmitting ? "Applying..." : "Apply Changes"}
@@ -117,7 +138,7 @@ export const RemotesForm = () => {
 
         <button
           type="button"
-          className="apply-button reset-button"
+          className="reset-button"
           onClick={handleReset}
           disabled={isSubmitting}
         >

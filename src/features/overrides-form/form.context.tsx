@@ -1,130 +1,135 @@
-import {
-  createContext,
-  use,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useContext, useState } from "react";
 import type { MFERemote, FederationHostRuntime } from "./form.types";
 import type { MFEFormState, RemoteVersionField } from "./form.types";
+import { camelToKebabCase } from "../graph/graph";
 
 interface YoFormContextType {
   hostGroups: FederationHostRuntime[];
   formState: MFEFormState;
   updateRemoteVersion: (remoteName: string, version: string | null) => void;
+  clearRemoteVersion: (remoteName: string) => void;
   handleFieldFocus: (remoteName: string) => void;
   handleFieldBlur: (remoteName: string) => void;
+  hasValidChanges: boolean;
 }
 
 const YoFormContext = createContext<YoFormContextType | undefined>(undefined);
 
-// Validate semver format - more comprehensive than simple regex
+// Improved semver validation to allow for preview versions
 const validateSemver = (version: string | null): boolean => {
   if (version === null) return true;
-  // Basic semver validation: major.minor.patch[-prerelease][+build]
-  return /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/.test(
-    version
-  );
+  // Basic semver validation with optional prerelease tag
+  return /^\d+\.\d+\.\d+(-[a-zA-Z0-9.-]+)?$/.test(version);
 };
 
-// Helper to load initial values from localStorage
-const getInitialVersions = (): Record<string, string | null> => {
-  const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
-  const initialValues: Record<string, string | null> = {};
+const getHostGroups = (): FederationHostRuntime[] => {
+  const groups: FederationHostRuntime[] = [];
+  if (window.__FEDERATION__?.__INSTANCES__?.length) {
+    for (const instance of window.__FEDERATION__.__INSTANCES__) {
+      const isHost = instance.options?.remotes?.length;
+      if (isHost)
+        groups.push({
+          options: instance.options,
+          name: instance.name,
+          manifestName: instance.name,
+          version: instance.version,
+          moduleCache: instance.moduleCache,
+          remotes: instance.options.remotes.map((remote: MFERemote) => ({
+            ...remote,
+            version: "",
+          })),
+          plugins: instance.options.plugins,
+        });
+    }
+  }
 
-  storedOverrides
-    .split(",")
-    .filter(Boolean)
-    .forEach((override) => {
-      const [name, version] = override.split("_");
-      initialValues[name] = version || null;
-    });
-
-  return initialValues;
+  return groups;
 };
 
 export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const getHostGroups = useCallback((): FederationHostRuntime[] => {
-    const groups: FederationHostRuntime[] = [];
-    if (window.__FEDERATION__?.__INSTANCES__?.length) {
-      for (const instance of window.__FEDERATION__.__INSTANCES__) {
-        const isPreviewBuilder = instance.name === "previewBuilder";
-        if (!isPreviewBuilder)
-          groups.push({
-            options: instance.options,
-            name: instance.name,
-            version: instance.version,
-            moduleCache: instance.moduleCache,
-            remotes: instance.options.remotes,
-            plugins: instance.options.plugins,
-          });
-      }
-    }
-
-    return groups;
-  }, []);
-
-  const [hostGroups, setHostGroups] = useState<FederationHostRuntime[]>(
-    getHostGroups()
-  );
+  const [hostGroups] = useState<FederationHostRuntime[]>(getHostGroups());
 
   const [formState, setFormState] = useState<MFEFormState>(() => {
     const remoteVersions: Record<string, RemoteVersionField> = {};
-    const initialVersions = getInitialVersions();
+
+    // Load initial values from localStorage
+    const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
+
+    const initialOverrides = storedOverrides
+      .split(",")
+      .filter(Boolean)
+      .reduce((acc, override) => {
+        console.log("override", override);
+        const [name, version] = override.split("_");
+        if (name && version) {
+          acc[camelToKebabCase(name)] = version;
+        }
+        return acc;
+      }, {} as Record<string, string>);
 
     for (const group of hostGroups) {
       for (const remote of group.remotes) {
-        const initialValue = initialVersions[remote.name] || null;
-        remoteVersions[remote.name] = {
+        const initialValue =
+          initialOverrides[camelToKebabCase(remote.name)] || null;
+
+        remoteVersions[camelToKebabCase(remote.name)] = {
           value: initialValue,
           initialValue,
           isTouched: false,
           isDirty: false,
           isValid: true,
           isFocusing: false,
+          error: undefined,
         };
       }
     }
-
     return { remoteVersions };
   });
 
-  // Handle input focus - sets isFocusing to true
+  // Handle when a field receives focus
   const handleFieldFocus = (remoteName: string) => {
     setFormState((prev) => ({
       ...prev,
       remoteVersions: {
         ...prev.remoteVersions,
         [remoteName]: {
-          ...prev.remoteVersions[remoteName],
+          ...(prev.remoteVersions[remoteName] || {}),
           isFocusing: true,
+          // Clear error while typing for better user experience
+          error: undefined,
         },
       },
     }));
   };
 
-  // Handle input blur - validates and persists if needed
+  // Handle when a field loses focus - validate and persist if needed
   const handleFieldBlur = (remoteName: string) => {
     setFormState((prev) => {
-      const field = prev.remoteVersions[remoteName];
+      const field = prev.remoteVersions[remoteName] || {
+        value: null,
+        initialValue: null,
+        isTouched: false,
+        isDirty: false,
+        isValid: true,
+      };
+
       const value = field.value;
       const isValid = validateSemver(value);
 
-      const newField = {
+      const updatedField = {
         ...field,
         isFocusing: false,
         isTouched: true,
         isValid,
         error: isValid
           ? undefined
-          : "Invalid semantic version format (e.g. 1.2.3 or 1.2.3-preview)",
+          : "Invalid version format (e.g. 1.2.3 or 1.2.3-preview)",
       };
 
-      // Only persist to localStorage on blur if valid
-      if (newField.isDirty) {
+      // Persist to localStorage if valid
+      if (updatedField.isDirty) {
         const storedOverrides =
           localStorage.getItem("hawaii_mfe_overrides") || "";
         const overridesList = storedOverrides.split(",").filter(Boolean);
@@ -134,19 +139,23 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
 
         if (value && isValid) {
           updatedOverrides.push(`${remoteName}_${value}`);
+          localStorage.setItem(
+            "hawaii_mfe_overrides",
+            updatedOverrides.join(",")
+          );
+        } else if (!value || !isValid) {
+          localStorage.setItem(
+            "hawaii_mfe_overrides",
+            updatedOverrides.join(",")
+          );
         }
-
-        localStorage.setItem(
-          "hawaii_mfe_overrides",
-          updatedOverrides.join(",")
-        );
       }
 
       return {
         ...prev,
         remoteVersions: {
           ...prev.remoteVersions,
-          [remoteName]: newField,
+          [remoteName]: updatedField,
         },
       };
     });
@@ -154,40 +163,58 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateRemoteVersion = (remoteName: string, version: string | null) => {
     setFormState((prev) => {
-      const currentField = prev.remoteVersions[remoteName];
+      const field = prev.remoteVersions[remoteName] || {
+        value: null,
+        initialValue: null,
+        isTouched: false,
+        isDirty: false,
+        isValid: true,
+        isFocusing: false,
+      };
 
-      // Only validate if not currently focusing (typing)
-      // or if clearing the field (version === null)
-      const shouldValidate = !currentField.isFocusing || version === null;
+      // Only validate if not currently focusing or if clearing the field
+      const shouldValidate = !field.isFocusing || version === null;
       const isValid = shouldValidate ? validateSemver(version) : true;
 
       return {
+        ...prev,
         remoteVersions: {
           ...prev.remoteVersions,
           [remoteName]: {
-            ...currentField,
+            ...field,
             value: version,
-            isDirty: version !== currentField.initialValue,
+            isDirty: version !== field.initialValue,
             isTouched: true,
-            isValid: shouldValidate ? isValid : currentField.isValid,
+            isValid: shouldValidate ? isValid : field.isValid,
             error:
               shouldValidate && !isValid
-                ? "Invalid semantic version format (e.g. 1.2.3 or 1.2.3-preview)"
-                : currentField.isFocusing
+                ? "Invalid version format (e.g. 1.2.3 or 1.2.3-preview)"
+                : field.isFocusing
                 ? undefined
-                : currentField.error,
+                : field.error,
           },
         },
       };
     });
   };
 
+  const clearRemoteVersion = (remoteName: string) => {
+    updateRemoteVersion(remoteName, null);
+  };
+
+  // Calculate if there are valid changes to apply
+  const hasValidChanges = Object.values(formState.remoteVersions).some(
+    (field) => field.isDirty && field.isValid
+  );
+
   const value = {
     hostGroups,
     formState,
     updateRemoteVersion,
+    clearRemoteVersion,
     handleFieldFocus,
     handleFieldBlur,
+    hasValidChanges,
   };
 
   return (

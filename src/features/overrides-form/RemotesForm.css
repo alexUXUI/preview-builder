@@ -53,7 +53,8 @@
 
 .remote-item {
   display: flex;
-  flex-direction: column;
+  background: red;
+  width: 100%;
 }
 
 .remote-label {
@@ -123,4 +124,120 @@
 
 .reset-button:disabled {
   cursor: not-allowed;
+}
+
+/* NEW NEW NEW */
+
+.remote-version-input {
+  position: relative;
+}
+
+.version-input {
+  /* width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #d0d0df;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  outline: none; */
+}
+
+/* Focused state */
+.version-input.is-focused {
+  border-color: #4070ff;
+  box-shadow: 0 0 0 2px rgba(64, 112, 255, 0.2);
+}
+
+/* Invalid state */
+.version-input.is-invalid {
+  border-color: #ff4757;
+  background-color: rgba(255, 71, 87, 0.05);
+}
+
+/* Valid state with changes */
+.version-input.is-valid {
+  border-color: #28a745;
+  background-color: rgba(40, 167, 69, 0.05);
+}
+
+.error-message {
+  color: #ff4757;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* Focus styles */
+.remotes-table tr.focusing td {
+  background-color: rgba(64, 112, 255, 0.05);
+}
+
+.focusing-label {
+  color: #4070ff !important;
+  font-weight: 600 !important;
+}
+
+/* Input in focus state is styled in RemoteVersionInput component */
+
+/* Invalid state */
+.remotes-table tr.invalid td {
+  background-color: rgba(255, 71, 87, 0.05);
+}
+
+/* Modified state */
+.remotes-table tr.modified td {
+  background-color: rgba(64, 112, 255, 0.02);
+}
+
+/* Apply button states */
+.apply-button.ready {
+  background-color: #34c759;
+  color: white;
+  border: none;
+  box-shadow: 0 0 10px rgba(52, 199, 89, 0.4);
+  transform: translateY(-1px);
+}
+
+.apply-button.ready:hover {
+  background-color: #30b955;
+  box-shadow: 0 0 12px rgba(52, 199, 89, 0.5);
+}
+
+.apply-button.invalid {
+  background-color: #ff4757;
+  cursor: not-allowed;
+}
+
+.apply-button.submitting {
+  background-color: #a0a8c5;
+  cursor: wait;
+}
+
+.apply-button.no-changes {
+  background-color: #a0a8c5;
+  cursor: not-allowed;
+}
+
+/* Fix for reset button */
+.reset-button {
+  background: transparent;
+  color: #a0a8c5;
+  border: 1px solid #e0e0e7;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover:not(:disabled) {
+  color: #ff4050;
+  border-color: #ff4050;
+}
+
+.reset-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.host-title {
+  display: flex;
 }

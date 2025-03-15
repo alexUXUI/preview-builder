@@ -3,7 +3,10 @@ import { bootstrap } from "./bootstrap";
 export default {
   bootstrap() {
     console.log("[preview builder] Bootstrapping...");
-    bootstrap();
+
+    setTimeout(() => {
+      bootstrap();
+    }, 1000);
   },
   destroy() {
     console.log("[preview builder] Destroying...");
