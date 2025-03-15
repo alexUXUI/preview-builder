@@ -1,13 +1,21 @@
 import { FormIndex } from "../overrides";
 import DependencyGraph from "../graph/graph.component";
 import "./tabs.css";
+import { RemotesForm } from "../overrides-form/RemotesForm";
+import { FormProvider as FP } from "../overrides/form.context";
 
 export const TabContent = ({ activeTab }: { activeTab: string }) => {
   switch (activeTab) {
-    case "form":
-      return <FormIndex />;
+    // case "form":
+    //   return (
+    //     <FP>
+    //       <FormIndex />
+    //     </FP>
+    //   );
     case "graph":
       return <DependencyGraph />;
+    case "overrides":
+      return <RemotesForm />;
     default:
       return <FormIndex />;
   }
@@ -25,20 +33,19 @@ export const Tabs = ({
       <div className="radio-group">
         <input
           type="radio"
-          id="form-tab"
+          id="overrides-tab"
           name="tab"
-          value="form"
-          checked={activeTab === "form"}
+          value="overrides"
+          checked={activeTab === "overrides"}
           onChange={(e) => setActiveTab(e.target.value)}
           className="radio-input"
         />
         <label
-          htmlFor="form-tab"
-          className={`radio-label ${activeTab === "form" ? "active" : ""}`}
+          htmlFor="overrides-tab"
+          className={`radio-label ${activeTab === "overrides" ? "active" : ""}`}
         >
-          Form
+          Overrides
         </label>
-
         <input
           type="radio"
           id="graph-tab"

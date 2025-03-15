@@ -1,0 +1,126 @@
+.remotes-form {
+  padding: 0 0 0px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.host-group {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e7;
+  padding-bottom: 12px;
+}
+
+.host-group:last-child {
+  border-bottom: none;
+  margin-bottom: 12px;
+}
+
+.host-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.host-group-header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #343445;
+}
+
+.host-group-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.host-version {
+  font-size: 13px;
+  color: #5b6070;
+  background-color: #f0f0f7;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.remotes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.remote-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.remote-label {
+  color: rgb(66, 66, 76);
+}
+
+.remote-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.no-remotes {
+  font-style: italic;
+  color: #a0a8c5;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e7;
+}
+
+.apply-button {
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 80%;
+}
+
+.apply-button:hover:not(.disabled) {
+  transform: translateY(-1px);
+}
+
+.apply-button:active:not(.disabled) {
+  transform: translateY(1px);
+}
+
+.apply-button.disabled {
+  color: black;
+  cursor: not-allowed;
+}
+
+.reset-button {
+  /* background: transparent; */
+  /* border: 1px solid #e0e0e7; */
+  /* border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease; */
+}
+
+.reset-button:hover {
+  color: #ff4050;
+  border-color: #ff4050;
+}
+
+.reset-button:disabled {
+  cursor: not-allowed;
+}

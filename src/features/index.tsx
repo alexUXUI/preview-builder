@@ -3,10 +3,9 @@ import { Panel, PanelButton, PanelHeader } from "./panel/panel";
 import { Tabs, TabContent } from "./tabs/tabs.comoponent";
 import "./index.css";
 
-
 export const PreviewBuilder = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("form");
+  const [activeTab, setActiveTab] = useState("overrides");
 
   const handleClose = useCallback(() => {
     setIsOpen(false);
@@ -18,14 +17,10 @@ export const PreviewBuilder = () => {
     <div className="mfe-overrides-container">
       <PanelButton onClick={togglePanel} />
       <Panel handleClose={handleClose} isOpen={isOpen}>
-        <PanelHeader
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
+        <PanelHeader activeTab={activeTab} setActiveTab={setActiveTab} />
         <hr />
         <TabContent activeTab={activeTab} />
       </Panel>
     </div>
   );
 };
-

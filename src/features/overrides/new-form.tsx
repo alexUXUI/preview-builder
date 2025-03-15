@@ -125,6 +125,8 @@ export const Form = () => {
     return groups;
   };
 
+  // console.log("getHostGroups 🔥🔥🔥🔥", getHostGroups());
+
   const hostGroups = getHostGroups();
 
   return (

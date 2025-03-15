@@ -1,0 +1,171 @@
+[
+  {
+    "options": {
+      "id": "shell:0.0.0",
+      "name": "shell",
+      "plugins": [
+        { "name": "hawaii-federation-runtime" },
+        { "name": "mf-fast-refresh-plugin" },
+        { "name": "mf-chrome-devtools-inject-snapshot-plugin" },
+        { "name": "mf-devtool-getModuleInfo-plugin" },
+        { "name": "snapshot-plugin" },
+        { "name": "generate-preload-assets-plugin" }
+      ],
+      "remotes": [
+        {
+          "name": "previewBuilder",
+          "entry": "http://localhost:1337/mf-manifest.json",
+          "shareScope": "default",
+          "type": "global"
+        },
+        {
+          "entry": "http://localhost:3007/assets/admin-portal/0/mf-manifest.json",
+          "name": "adminPortal",
+          "shareScope": "default",
+          "type": "global"
+        },
+        {
+          "entry": "http://localhost:3007/assets/thread/local/mf-manifest.json",
+          "name": "thread",
+          "shareScope": "default",
+          "type": "global"
+        }
+      ],
+      "shared": {},
+      "inBrowser": true
+    },
+    "name": "shell",
+    "version": "0.6.20",
+    "moduleCache": {},
+    "remotes": [
+      {
+        "name": "previewBuilder",
+        "entry": "http://localhost:1337/mf-manifest.json",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      },
+      {
+        "entry": "http://localhost:3007/assets/admin-portal/0/mf-manifest.json",
+        "name": "adminPortal",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      },
+      {
+        "entry": "http://localhost:3007/assets/thread/local/mf-manifest.json",
+        "name": "thread",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      }
+    ],
+    "plugins": [
+      { "name": "hawaii-federation-runtime" },
+      { "name": "mf-fast-refresh-plugin" },
+      { "name": "mf-chrome-devtools-inject-snapshot-plugin" },
+      { "name": "mf-devtool-getModuleInfo-plugin" },
+      { "name": "snapshot-plugin" },
+      { "name": "generate-preload-assets-plugin" }
+    ]
+  },
+  {
+    "options": {
+      "id": "thread:local",
+      "name": "thread",
+      "plugins": [
+        { "name": "thread-federation-runtime" },
+        { "name": "mf-fast-refresh-plugin" },
+        { "name": "mf-chrome-devtools-inject-snapshot-plugin" },
+        { "name": "mf-devtool-getModuleInfo-plugin" },
+        { "name": "snapshot-plugin" },
+        { "name": "generate-preload-assets-plugin" },
+        { "name": "dynamic-remote-type-hints-plugin" }
+      ],
+      "remotes": [
+        {
+          "entry": "http://localhost:3007/assets/accuris-platform.document-library/0/mf-manifest.json",
+          "name": "documentLibrary",
+          "shareScope": "default",
+          "type": "global"
+        },
+        {
+          "entry": "http://localhost:3007/assets/accuris-platform.requirement-library/0/mf-manifest.json",
+          "name": "requirementLibrary",
+          "shareScope": "default",
+          "type": "global"
+        },
+        {
+          "entry": "http://localhost:3007/assets/document-viewer/0/mf-manifest.json",
+          "name": "documentViewer",
+          "shareScope": "default",
+          "type": "global"
+        },
+        {
+          "entry": "http://localhost:3007/assets/package-library-ext/0/mf-manifest.json",
+          "name": "packageLibraryExt",
+          "shareScope": "default",
+          "type": "global"
+        },
+        {
+          "name": "shell",
+          "entry": "http://localhost:3000/hawaii/shell/local/mf-manifest.json",
+          "shareScope": "default",
+          "type": "global"
+        }
+      ],
+      "shared": {},
+      "inBrowser": true,
+      "shareStrategy": "version-first"
+    },
+    "name": "thread",
+    "version": "0.6.20",
+    "moduleCache": {},
+    "remotes": [
+      {
+        "entry": "http://localhost:3007/assets/accuris-platform.document-library/0/mf-manifest.json",
+        "name": "documentLibrary",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      },
+      {
+        "entry": "http://localhost:3007/assets/accuris-platform.requirement-library/0/mf-manifest.json",
+        "name": "requirementLibrary",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      },
+      {
+        "entry": "http://localhost:3007/assets/document-viewer/0/mf-manifest.json",
+        "name": "documentViewer",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      },
+      {
+        "entry": "http://localhost:3007/assets/package-library-ext/0/mf-manifest.json",
+        "name": "packageLibraryExt",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      },
+      {
+        "name": "shell",
+        "entry": "http://localhost:3000/hawaii/shell/local/mf-manifest.json",
+        "shareScope": "default",
+        "type": "global",
+        "version": ""
+      }
+    ],
+    "plugins": [
+      { "name": "thread-federation-runtime" },
+      { "name": "mf-fast-refresh-plugin" },
+      { "name": "mf-chrome-devtools-inject-snapshot-plugin" },
+      { "name": "mf-devtool-getModuleInfo-plugin" },
+      { "name": "snapshot-plugin" },
+      { "name": "generate-preload-assets-plugin" },
+      { "name": "dynamic-remote-type-hints-plugin" }
+    ]
+  }
+]
