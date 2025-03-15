@@ -67,7 +67,7 @@
       inset -2px -2px 4px rgba(255, 255, 255, 0.3); */
 }
 
-.badge-counter {
+/* .badge-counter {
   margin-left: 8px;
   background: #ff4757;
   color: white;
@@ -80,7 +80,7 @@
   font-size: 12px;
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+} */
 
 .panel-header {
   display: flex;
@@ -99,6 +99,8 @@
   font-size: 22px;
 }
 
+/*
+
 .mfe-overrides-panel h2 {
   font-size: 20px;
 }
@@ -109,8 +111,8 @@
 
 .mfe-overrides-panel h4 {
   font-size: 18px;
-}
+} */
 
-.mfe-overrides-panel label {
+/* .mfe-overrides-panel label {
   font-size: 14px;
-}
+} */

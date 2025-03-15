@@ -18,7 +18,7 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 1000;
-  color: var(--colors-app-blue-500);
+  /* color: var(--colors-app-blue-500); */
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 }
 
