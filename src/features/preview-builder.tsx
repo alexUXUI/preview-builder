@@ -1,20 +1,15 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { Panel } from "./panel/panel";
 import { TabContent } from "./tabs/tabs.comoponent";
 import { PanelButton } from "./panel/button";
 import { PanelHeader } from "./panel/header";
-import "./index.css";
+import "./preview-builder.css";
 
 export const PreviewBuilder = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overrides");
-
-  const handleClose = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
+  const handleClose = () => setIsOpen(false);
   const togglePanel = () => setIsOpen(!isOpen);
-
   return (
     <div className="mfe-overrides-container">
       <PanelButton onClick={togglePanel} />
