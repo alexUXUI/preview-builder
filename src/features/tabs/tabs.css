@@ -1,5 +1,5 @@
 .tab-container {
-  padding: 20px;
+  /* padding: 20px; */
 }
 
 .radio-group {
@@ -16,7 +16,7 @@
 
 .radio-label {
   flex: 1;
-  padding: 12px 24px;
+  padding: 6px 6px;
   text-align: center;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -25,6 +25,7 @@
   position: relative;
   background: "#EFEEE";
   margin: 0 4px 0 0;
+  font-size: 14px;
 }
 
 .radio-label.active {

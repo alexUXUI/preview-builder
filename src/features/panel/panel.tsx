@@ -18,14 +18,6 @@ export const Panel = ({
       className={`mfe-overrides-panel ${isOpen ? "open" : ""}`}
       ref={panelRef}
     >
-      <button
-        className="close-button"
-        onClick={handleClose}
-        aria-label="Close MFE Overrides Panel"
-        type="button"
-      >
-        ×
-      </button>
       <div className="mfe-overrides-form">{children}</div>
     </div>
   );

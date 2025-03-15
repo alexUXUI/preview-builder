@@ -2,6 +2,7 @@
   right: 0;
   height: 100vh;
   overflow-y: scroll;
+  width: 500px;
 }
 
 .mfe-overrides-panel {
@@ -20,9 +21,6 @@
 }
 
 .close-button {
-  position: absolute;
-  top: 16px;
-  right: 16px;
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -114,5 +112,5 @@
 }
 
 .mfe-overrides-panel label {
-  font-size: 16px;
+  font-size: 14px;
 }

@@ -19,7 +19,11 @@ export const PreviewBuilder = () => {
     <div className="mfe-overrides-container">
       <PanelButton onClick={togglePanel} />
       <Panel handleClose={handleClose} isOpen={isOpen}>
-        <PanelHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+        <PanelHeader
+          handleClose={handleClose}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
         <hr />
         <TabContent activeTab={activeTab} />
       </Panel>
