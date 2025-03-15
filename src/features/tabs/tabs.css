@@ -30,14 +30,14 @@
 
 .radio-label.active {
   color: #4070ff;
-  box-shadow: inset -2px -2px 2px rgba(255, 255, 255, 0.5),
-    inset 2px 2px 2px rgba(209, 205, 199, 0.5);
+  box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.5),
+    inset 1px 1px 1px rgba(209, 205, 199, 0.5);
 }
 
 .radio-label:not(.active):hover {
   background: #fcfcfc;
-  box-shadow: inset -2px -2px 2px rgba(255, 255, 255, 0.5),
-    inset 2px 2px 2px rgba(209, 205, 199, 0.5);
+  box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.5),
+    inset 1px 1px 1px rgba(209, 205, 199, 0.5);
   color: #4070ff;
 }
 
@@ -46,7 +46,7 @@
   position: absolute;
   inset: 0;
   border-radius: 8px;
-  padding: 2px;
+  padding: 1px;
   background: rgba(255, 255, 255, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.2);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
