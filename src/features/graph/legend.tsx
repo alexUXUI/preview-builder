@@ -25,46 +25,22 @@ const Legend = () => {
         cursor: "move",
       }}
     >
-      <div style={{ fontSize: "14px", fontWeight: 500, marginBottom: "12px" }}>
-        Legend
-      </div>
-      <div style={{ display: "flex", flexDirection: "row", gap: "12px" }}>
-        <div style={{}}>
-          <div style={{ fontSize: "12px", color: "#666", marginBottom: "8px" }}>
-            Node Types
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div
-                style={{
-                  width: "16px",
-                  height: "16px",
-                  backgroundColor: "#4070ff",
-                  borderRadius: "4px",
-                }}
-              />
-              <span style={{ fontSize: "12px" }}>Active MFE</span>
+      <div className="legend-title">Legend</div>
+      <div className="legend-row">
+        <div className="legend-section">
+          <div className="legend-text-muted">MFE Status</div>
+          <div className="legend-section">
+            <div className="legend-item">
+              <div className="legend-dot legend-dot-active" />
+              <span className="legend-text">Active MFE</span>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div
-                style={{
-                  width: "16px",
-                  height: "16px",
-                  backgroundColor: "#ff4757",
-                  borderRadius: "4px",
-                }}
-              />
-              <span style={{ fontSize: "12px" }}>Preview Override</span>
+            <div className="legend-item">
+              <div className="legend-dot legend-dot-preview" />
+              <span className="legend-text">Preview Override</span>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div
-                style={{
-                  width: "16px",
-                  height: "16px",
-                  backgroundColor: "#f0f0f7",
-                }}
-              />
-              <span style={{ fontSize: "12px" }}>Inactive MFE</span>
+            <div className="legend-item">
+              <div className="legend-dot legend-dot-inactive" />
+              <span className="legend-text">Inactive MFE</span>
             </div>
           </div>
         </div>

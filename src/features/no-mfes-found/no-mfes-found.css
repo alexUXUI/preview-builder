@@ -1,0 +1,45 @@
+.no-overrides {
+  position: relative;
+}
+
+.gears-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 250px;
+  margin-bottom: 20px;
+}
+
+.gears-container path {
+  fill: #4a90e2;
+  stroke: #2171cd;
+  stroke-width: 2;
+  transform-origin: center;
+}
+
+.override-actions {
+  margin-top: 16px;
+}
+
+.apply-button {
+  background: linear-gradient(90deg, #4070ff 0%, #8ca9ff 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  transition: all 0.2s ease;
+}
+
+.apply-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.apply-button:active {
+  transform: translateY(0);
+}

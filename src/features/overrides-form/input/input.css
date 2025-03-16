@@ -1,0 +1,107 @@
+:root {
+  --shadow-color: rgba(5, 2, 95, 0.0973);
+  --light-color: rgba(255, 255, 255, 0.8);
+  --surface-color: #fafbfd;
+  --text-color: #2a2a2a;
+  --text-color-light: #5f5f5f;
+  --border-radius: 10px;
+}
+
+input[type="text"] {
+  width: 120px;
+  padding: 0.58rem 0.8rem;
+  border: none;
+  border-radius: var(--border-radius);
+  background: #ffffff;
+  color: var(--text-color);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0.5px 0.5px 1px var(--shadow-color),
+    inset -0.5px -0.5px 1px var(--light-color);
+}
+
+input[type="text"].invalid {
+  box-shadow: inset 0px 1px 1px rgb(247, 188, 246),
+    inset 0px -1px 10px rgb(248, 204, 182);
+}
+
+.version-input.valid {
+  box-shadow: inset 0px 1px 1px rgb(172, 243, 223),
+    inset 0px -1px 10px rgb(213, 250, 191);
+}
+
+input[type="text"]:focus {
+  outline: none;
+  box-shadow: inset 1px 1px 2px #1976d2, inset -1px -1px 2px #2196f3;
+}
+
+input[type="text"]:focus label {
+  color: #1976d2;
+}
+
+.remote-version-input {
+  position: relative;
+  display: inline-block;
+}
+
+.remote-version-input > input::placeholder {
+  color: rgb(196, 197, 213) !important;
+}
+
+.clear-button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  line-height: 1;
+  background: linear-gradient(
+    145deg,
+    rgb(255, 105, 71) 0%,
+    rgba(255, 71, 87, 1) 35%,
+    rgb(255, 107, 171) 100%
+  );
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.clear-button:hover {
+  cursor: pointer;
+  background: linear-gradient(
+    145deg,
+    rgb(250, 77, 38) 0%,
+    rgb(250, 39, 56) 35%,
+    rgb(249, 64, 145) 100%
+  );
+}
+
+.clear-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.remote-version-input input[type="text"] {
+  padding-right: 25px;
+}
+
+.version-input.error {
+}
+.version-input.focused {
+}
+.version-input.isDirty {
+}
+.version-input.isTouched {
+}
+.version-input.invalid {
+}

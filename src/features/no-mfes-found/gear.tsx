@@ -1,24 +1,9 @@
 import type { FC } from "react";
+import "./no-mfes-found.css";
 
 export const Gear: FC = () => {
   return (
     <>
-      <style>{`
-                .gears-container {
-                    position: relative;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 250px;
-                    height: 250px;
-                }
-                .gears-container path {
-                    fill: #4a90e2;
-                    stroke: #2171cd;
-                    stroke-width: 2;
-                    transform-origin: center;
-                }
-            `}</style>
       {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
       <svg fill="#000000" viewBox="0 0 418.879 418.879">
         <g>

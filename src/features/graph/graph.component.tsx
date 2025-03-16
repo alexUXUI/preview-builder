@@ -6,6 +6,7 @@ import ReactFlow, {
   useEdgesState,
 } from "reactflow";
 import "reactflow/dist/style.css";
+import "./graph.css";
 import { TooltipWrapper } from "../tooltip/tooltip";
 import { createGraph, useSelectableGraph } from "./graph";
 import { useSelection } from "../selection/selection.context";
@@ -70,11 +71,9 @@ const DependencyGraph = () => {
   );
 
   return (
-    <div style={{ width: "100%", height: "600px" }}>
-      <div
-        style={{ display: "flex", alignItems: "center", margin: "0 0 25px 0" }}
-      >
-        <h2 style={{ margin: "0 5px 0px 10px" }}>MFE Graph</h2>
+    <div className="graph-container">
+      <div className="graph-header">
+        <h2 className="graph-title">MFE Graph</h2>
         <TooltipWrapper tooltip="MFE dependency graph. Illustrates the heirarchy of MFEs in the runtime." />
       </div>
       <ReactFlow

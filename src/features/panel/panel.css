@@ -96,7 +96,11 @@
   background: white;
   z-index: 100;
   width: 100%;
-  padding-top: 10px;
+  padding: 10px 10px 10px 10px;
+  box-shadow: 0px 3px 6px var(--shadow-color),
+    0px -2px 1122px var(--light-color);
+  width: calc(100% + 20px);
+  margin-left: -10px !important;
 }
 
 .panel-header__title-container {

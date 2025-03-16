@@ -1,17 +1,10 @@
 import { Gear } from "./gear";
+import "./no-mfes-found.css";
 
 export const NoMFEsFound = () => {
   return (
-    <div
-      className="no-overrides"
-      style={{
-        position: "relative",
-      }}
-    >
-      <div
-        className="gears-container"
-        style={{ marginBottom: "20px", position: "relative" }}
-      >
+    <div className="no-overrides">
+      <div className="gears-container">
         <Gear />
       </div>
       <p>No MFE overrides configured</p>
