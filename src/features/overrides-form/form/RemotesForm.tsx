@@ -137,12 +137,6 @@ export const RemotesForm = () => {
                           ${isFocusing ? "focusing" : ""}
                           ${isInvalid ? "invalid" : ""}
                           ${isDirty ? "modified" : ""}
-                          ${isHighlightTarget ? "highlight-target" : ""}
-                          ${
-                            highlightedRemoteName === remote.name
-                              ? "highlighted"
-                              : ""
-                          }
                         `}
                       >
                         <td>
