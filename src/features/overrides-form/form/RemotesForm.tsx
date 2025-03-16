@@ -3,11 +3,14 @@ import { TooltipWrapper } from "../../tooltip/tooltip";
 import { camelToKebabCase } from "../../graph/graph";
 import { useOverridesForm } from "../context/form.context";
 import { RemoteVersionInput } from "../input/RemoteVersionInput";
+import { useSelection } from "../../selection/selection.context";
 import "./RemotesForm.css";
 
 export const RemotesForm = () => {
   const { hostGroups, formState, updateRemoteVersion } = useOverridesForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { highlightedRemoteName, highlightRemote, setActiveTab } =
+    useSelection();
 
   // Check if there are any invalid fields
   const hasInvalidFields = Object.values(formState.remoteVersions).some(
@@ -38,14 +41,18 @@ export const RemotesForm = () => {
 
     // Apply changes by reloading the page
     // The values are already stored in localStorage when field is blurred
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
   };
 
   // Handle cancel or reset
   const handleReset = () => {
-    if (confirm("Are you sure you want to reset all changes?")) {
+    if (confirm("This will clear all MFE overrides.")) {
       localStorage.removeItem("hawaii_mfe_overrides");
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
   };
 
@@ -85,13 +92,16 @@ export const RemotesForm = () => {
               {group.remotes.length > 0 ? (
                 <tbody>
                   {group.remotes.map((remote) => {
-                    if (remote.name === "previewBuilder") return null;
+                    // if (remote.name === "previewBuilder") return null;
                     if (remote.name === "shell") return null;
                     const field =
                       formState.remoteVersions[camelToKebabCase(remote.name)];
                     const isFocusing = field?.isFocusing || false;
                     const isInvalid = field?.isTouched && !field?.isValid;
                     const isDirty = field?.isDirty || false;
+                    const kebabName = camelToKebabCase(remote.name);
+
+                    const isHighlighted = highlightedRemoteName === remote.name;
 
                     return (
                       <tr
@@ -103,13 +113,25 @@ export const RemotesForm = () => {
                         `}
                       >
                         <td>
+                          {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
                           <label
+                            data-remote-name={remote.name} // Add this for easier debugging
                             htmlFor={remote.name}
                             className={
                               isFocusing
                                 ? "focusing-label remote-label"
                                 : "remote-label"
                             }
+                            onClick={(e) => {
+                              e.preventDefault();
+                              highlightRemote(remote.name);
+                              console.log(
+                                `Clicked on remote label: ${remote.name}`
+                              );
+                              // Make sure we're using the original name, not the kebab case version
+                              // This will match how nodes are created in the graph
+                              setActiveTab("graph");
+                            }}
                           >
                             {capitalizeFirstLetter(
                               camelToKebabCase(remote.name).split("-").join(" ")
@@ -136,7 +158,9 @@ export const RemotesForm = () => {
                                 <div className="ready-message">
                                   <button
                                     type="button"
-                                    className="apply-button"
+                                    className={`apply-button
+                                      ${isSubmitting ? "submitting" : ""}
+                                      `}
                                     onClick={() => {
                                       updateRemoteVersion(
                                         camelToKebabCase(remote.name),
@@ -148,7 +172,9 @@ export const RemotesForm = () => {
                                       }, 1000);
                                     }}
                                   >
-                                    Apply Override 🚀
+                                    {!isSubmitting
+                                      ? "Apply Override 🚀"
+                                      : "Applying..."}
                                   </button>
                                 </div>
                               )}
@@ -171,7 +197,9 @@ export const RemotesForm = () => {
                                 <div className="ready-message">
                                   <button
                                     type="button"
-                                    className="apply-button"
+                                    className={`apply-button
+                                      ${isSubmitting ? "submitting" : ""}
+                                      `}
                                     onClick={() => {
                                       updateRemoteVersion(
                                         camelToKebabCase(remote.name),
@@ -183,7 +211,9 @@ export const RemotesForm = () => {
                                       }, 1000);
                                     }}
                                   >
-                                    Clear Override 🚀
+                                    {!isSubmitting
+                                      ? "Clear Override 🚀"
+                                      : "Applying..."}
                                   </button>
                                 </div>
                               )}
@@ -235,9 +265,7 @@ export const RemotesForm = () => {
             ${hasChanges && !hasInvalidFields && !isSubmitting ? "ready" : ""}
 
           `}
-          disabled={
-            isSubmitting || (!hasChanges && !hasInvalidFields) || !hasChanges
-          }
+          disabled={isSubmitting}
         >
           Reset All
         </button>

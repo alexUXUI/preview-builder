@@ -116,6 +116,7 @@ export const treeToGraph = (
     id: node.id,
     data: {
       label: `${node.name} ${getNodeVersion(node.name)}`,
+      remoteName: node.name, // Add this line
     },
     position: {
       x: node.position * scale,

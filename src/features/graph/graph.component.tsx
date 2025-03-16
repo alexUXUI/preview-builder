@@ -6,22 +6,67 @@ import ReactFlow, {
   useEdgesState,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { createGraph } from "./graph";
 import { TooltipWrapper } from "../tooltip/tooltip";
+import { createGraph, useSelectableGraph } from "./graph";
+import { useSelection } from "../selection/selection.context";
+// Initialize with base graph data
 
 const DependencyGraph = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const { selectedNodeId, selectNode } = useSelection();
 
-  const updateGraph = useCallback(() => {
-    const { nodes: graphNodes, edges: graphEdges } = createGraph();
-    setNodes(graphNodes);
-    setEdges(graphEdges);
-  }, [setNodes, setEdges]);
+  const initialGraph = createGraph();
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialGraph.nodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialGraph.edges);
 
   useEffect(() => {
-    updateGraph();
-  }, [updateGraph]);
+    console.log(`Applying selection to node: ${selectedNodeId}`);
+
+    setNodes((nds) =>
+      nds.map((node) => {
+        // Add selected styling to the node if it matches the selectedNodeId
+        if (node.id === selectedNodeId) {
+          console.log(`Styling selected node: ${node.id}`);
+          return {
+            ...node,
+            style: {
+              ...node.style,
+              border: "3px solid #4070ff",
+              boxShadow: "0 0 12px rgba(64, 112, 255, 0.7)",
+              zIndex: 1000, // Make sure selected node appears on top
+            },
+            // Add a data attribute for easier debugging
+            data: {
+              ...node.data,
+              selected: true,
+            },
+          };
+        }
+        // Remove selected styling from other nodes
+        return {
+          ...node,
+          style: {
+            ...node.style,
+            border: node.style?.border || undefined,
+            boxShadow: undefined,
+            zIndex: 1,
+          },
+          data: {
+            ...node.data,
+            selected: false,
+          },
+        };
+      })
+    );
+  }, [selectedNodeId, setNodes]);
+
+  // Handle node click
+  const onNodeClick = useCallback(
+    (_event: any, node: Node) => {
+      console.log(`Node clicked: ${node.id}`);
+      selectNode(node.id);
+    },
+    [selectNode]
+  );
 
   return (
     <div style={{ width: "100%", height: "600px" }}>
@@ -32,12 +77,16 @@ const DependencyGraph = () => {
         <TooltipWrapper tooltip="MFE dependency graph. Illustrates the heirarchy of MFEs in the runtime." />
       </div>
       <ReactFlow
+        fitViewOptions={{ padding: 0.2 }}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onNodeClick={onNodeClick}
         fitView
-        fitViewOptions={{ padding: 0.2 }}
+        nodesConnectable={false}
+        nodesDraggable={true}
+        elementsSelectable={true}
       >
         <Background />
         <Controls />

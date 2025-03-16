@@ -1,0 +1,51 @@
+.remotes-table tr.highlighted {
+  background-color: rgba(64, 112, 255, 0.08);
+  animation: highlightPulse 2s ease-in-out;
+}
+
+@keyframes highlightPulse {
+  0% {
+    background-color: rgba(64, 112, 255, 0.2);
+  }
+  50% {
+    background-color: rgba(64, 112, 255, 0.08);
+  }
+  100% {
+    background-color: rgba(64, 112, 255, 0.2);
+  }
+}
+
+.actions-cell {
+  width: 40px;
+  text-align: center;
+}
+
+.view-in-graph-button {
+  background: transparent;
+  border: none;
+  color: #a0a8c5;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.view-in-graph-button:hover {
+  background-color: rgba(64, 112, 255, 0.1);
+  color: #4070ff;
+}
+
+.view-in-graph-button span {
+  font-size: 16px;
+}
+
+/* Make highlighted items more visible */
+.remotes-table tr.highlighted .remote-label {
+  color: #4070ff;
+  font-weight: 600;
+}

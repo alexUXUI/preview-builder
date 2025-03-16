@@ -1,6 +1,42 @@
 import type { Node, Edge } from "reactflow";
 import type { FederationInstance, GraphState, TreeNode } from "./types";
 import { remoteVersionMap, calculatePositions, treeToGraph } from "./layout";
+import { useSelection } from "../selection/selection.context";
+import { useCallback } from "react";
+
+import { useNodesState, useEdgesState } from "reactflow";
+
+export const useSelectableGraph = () => {
+  const { selectedNodeId, selectNode } = useSelection();
+
+  const createGraphWithSelection = useCallback(() => {
+    const { nodes: baseNodes, edges } = createGraph();
+
+    // Enhance nodes with selection behavior
+    const nodes = baseNodes.map((node) => ({
+      ...node,
+      data: {
+        ...node.data,
+        label: node.data.label,
+        onClick: () => selectNode(node.id),
+        isSelected: node.id === selectedNodeId,
+      },
+      // Apply styling for selected nodes
+      style: {
+        ...node.style,
+        border: node.id === selectedNodeId ? "2px solid #4070ff" : undefined,
+        boxShadow:
+          node.id === selectedNodeId
+            ? "0 0 8px rgba(64, 112, 255, 0.5)"
+            : undefined,
+      },
+    }));
+
+    return { nodes, edges };
+  }, [selectedNodeId, selectNode]);
+
+  return { createGraphWithSelection };
+};
 
 // Helper function to check if a name matches any federation runtime
 export const isRuntimeNode = (name: string): boolean => {
