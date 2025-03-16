@@ -69,7 +69,7 @@
 }
 
 .remotes-table td {
-  padding: 2.5px 0 2.5px 0;
+  /* padding: 2.5px 0 2.5px 0; */
   width: 37%;
   margin: auto;
   /* text-align: center; */
@@ -86,7 +86,7 @@
 }
 
 .remotes-table tr {
-  padding: 1.125rem;
+  padding: 0rem !important;
   /* background: var(--surface-color); */
   border-radius: var(--border-radius);
   /* box-shadow: 2px 2px 8px var(--shadow-color), -2px -2px 8px var(--light-color); */

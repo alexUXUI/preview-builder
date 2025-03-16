@@ -137,6 +137,12 @@ export const RemotesForm = () => {
                           ${isFocusing ? "focusing" : ""}
                           ${isInvalid ? "invalid" : ""}
                           ${isDirty ? "modified" : ""}
+                          ${isHighlightTarget ? "highlight-target" : ""}
+                          ${
+                            highlightedRemoteName === remote.name
+                              ? "highlighted"
+                              : ""
+                          }
                         `}
                       >
                         <td>
@@ -218,7 +224,7 @@ export const RemotesForm = () => {
                               !field.isDirty &&
                               !field.isTouched && (
                                 <div className="override-message">
-                                  MFE Overriden ⚠️
+                                  Override Applied
                                 </div>
                               )}
 

@@ -3,7 +3,7 @@
   /* height: 100vh; */
   overflow-y: scroll;
   width: 500px;
-  transition: right 0.2s ease;
+  /* transition: width 0.2s ease; */
   /* background-color: var(--colors-background-bg-brand-950); */
   box-shadow: -8px -8px 16px rgba(255, 255, 255, 0.8),
     8px 8px 16px rgba(174, 174, 192, 0.08);
@@ -22,7 +22,7 @@
   overflow-y: scroll;
   width: 500px;
   /* height: 100vh; */
-  right: -500px;
+  /* right: -500px; */
 }
 
 .close-button {
@@ -102,6 +102,10 @@
 .panel-header__title-container {
   display: flex;
   align-items: center;
+}
+
+.panel-header__title {
+  font-size: 24px !important;
 }
 
 .panel-header__buttons {

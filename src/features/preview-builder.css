@@ -32,7 +32,7 @@ h6 {
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 }
 
-.mfe-overrides-form {
+.panel-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -40,7 +40,7 @@ h6 {
   position: relative;
 }
 
-.mfe-overrides-form hr {
+.panel-content hr {
   border: none;
   height: 1px;
   background: transparent;
