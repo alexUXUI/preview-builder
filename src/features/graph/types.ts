@@ -131,7 +131,7 @@ export interface TreeNode {
   name: string;
   children: TreeNode[];
   level: number;
-  position: number;
+  position: { x: number; y: number };
   width: number;
   isRuntime: boolean;
 }

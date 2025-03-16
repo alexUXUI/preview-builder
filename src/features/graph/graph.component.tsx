@@ -9,6 +9,7 @@ import "reactflow/dist/style.css";
 import { TooltipWrapper } from "../tooltip/tooltip";
 import { createGraph, useSelectableGraph } from "./graph";
 import { useSelection } from "../selection/selection.context";
+import Legend from "./legend";
 // Initialize with base graph data
 
 const DependencyGraph = () => {
@@ -90,6 +91,7 @@ const DependencyGraph = () => {
       >
         <Background />
         <Controls />
+        <Legend />
       </ReactFlow>
     </div>
   );

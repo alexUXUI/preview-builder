@@ -1,5 +1,6 @@
 import type { Edge } from "reactflow";
 import type { TreeNode } from "./types";
+import dagre from "@dagrejs/dagre";
 
 export const camelToKebabCase = (str: string): string => {
   return str.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
@@ -66,51 +67,55 @@ export const isNodeOverridden = (name: string): boolean => {
     });
 };
 
-// Helper function to calculate node positions
-export const calculatePositions = (node: TreeNode, startX = 0): number => {
-  const nodeSpacing = 1.5; // Increased spacing for better readability
-  const minNodeWidth = 2; // Minimum width to prevent overcrowding
-
-  if (node.children.length === 0) {
-    node.position = startX;
-    return startX + Math.max(node.width, minNodeWidth) * nodeSpacing;
-  }
-
-  let totalWidth = 0;
-  const childWidths: number[] = [];
-
-  // First pass: calculate all child widths
-  // biome-ignore lint/complexity/noForEach: <explanation>
-  node.children.forEach((child) => {
-    const childWidth = calculatePositions(child, 0); // Calculate width without positioning
-    childWidths.push(childWidth);
-    totalWidth += childWidth;
+// Helper function to calculate node positions using Dagre
+export const calculatePositions = (node: TreeNode): void => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setGraph({
+    rankdir: "TB",
+    nodesep: 50,
+    ranksep: 70,
+    align: "UL",
+    acyclicer: "greedy",
+    marginx: 20,
+    marginy: 20,
   });
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-  // Second pass: position children with calculated widths
-  let currentX = startX;
-  node.children.forEach((child, index) => {
-    child.position =
-      currentX + childWidths[index] / 2 - (child.width * nodeSpacing) / 2;
-    currentX += childWidths[index];
-  });
+  const nodeWidth = 120;
+  const nodeHeight = 35;
 
-  // Center the parent node between its leftmost and rightmost children
-  const leftmostChild = node.children[0];
-  const rightmostChild = node.children[node.children.length - 1];
-  node.position =
-    leftmostChild.position +
-    (rightmostChild.position - leftmostChild.position) / 2;
+  // Helper function to add nodes and edges to Dagre graph
+  const addToDagreGraph = (node: TreeNode) => {
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    node.children.forEach((child) => {
+      dagreGraph.setNode(child.id, { width: nodeWidth, height: nodeHeight });
+      dagreGraph.setEdge(child.id, node.id);
+      addToDagreGraph(child);
+    });
+  };
 
-  return Math.max(totalWidth, node.width * nodeSpacing);
+  // Build the Dagre graph
+  addToDagreGraph(node);
+
+  // Calculate the layout
+  dagre.layout(dagreGraph);
+
+  // Helper function to apply Dagre positions to our tree
+  const applyDagrePositions = (node: TreeNode) => {
+    const dagreNode = dagreGraph.node(node.id);
+    node.position = { x: dagreNode.x, y: dagreNode.y };
+    node.children.forEach((child) => applyDagrePositions(child));
+  };
+
+  // Apply the calculated positions
+  applyDagrePositions(node);
 };
 
 // Helper function to convert tree to graph nodes and edges
 export const treeToGraph = (
   node: TreeNode,
   allNodes: Node[],
-  allEdges: Edge[],
-  scale = 52 // Reduced scale factor for more compact layout
+  allEdges: Edge[]
 ): void => {
   allNodes.push({
     id: node.id,
@@ -119,8 +124,8 @@ export const treeToGraph = (
       remoteName: node.name, // Add this line
     },
     position: {
-      x: node.position * scale,
-      y: node.level * 100,
+      x: node.position.x,
+      y: node.position.y,
     },
     style: {
       background: isNodeOverridden(node.name)
@@ -144,14 +149,31 @@ export const treeToGraph = (
 
   // biome-ignore lint/complexity/noForEach: <explanation>
   node.children.forEach((child) => {
-    treeToGraph(child, allNodes, allEdges, scale);
+    treeToGraph(child, allNodes, allEdges);
+    // Generate a consistent color based on the consumer (target) node
+    const edgeColor = `hsl(${
+      Math.abs(
+        node.name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0)
+      ) % 360
+    }, 70%, 50%)`;
     allEdges.push({
-      id: `${node.id}-${child.id}`,
-      source: node.id,
-      target: child.id,
+      id: `${child.id}-${node.id}`,
+      source: child.id,
+      target: node.id,
       type: "smoothstep",
+      animated: true,
+      data: {
+        consumer: node.name, // Store consumer name for legend
+      },
       style: {
-        stroke: "#b1b1b7",
+        stroke: edgeColor,
+        strokeWidth: 1.5,
+      },
+      markerEnd: {
+        type: "arrow",
+        width: 15,
+        height: 15,
+        color: edgeColor,
       },
     });
   });

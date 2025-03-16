@@ -110,7 +110,7 @@ const buildTree = (
     name: instance.name,
     children: [],
     level,
-    position: 0,
+    position: { x: 0, y: 0 },
     width: 0.5,
     isRuntime: true,
   };
@@ -135,7 +135,7 @@ const buildTree = (
         name: remote.name,
         children: [],
         level: level + 1,
-        position: 0,
+        position: { x: 0, y: 0 },
         width: 0.5,
         isRuntime: hasRuntimeCapabilities,
       };
