@@ -156,9 +156,13 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
         isFocusing: false,
         isTouched: true,
         isValid,
-        error: isValid
-          ? undefined
-          : "Invalid version format (e.g. 1.2.3 or 1.2.3-preview)",
+        error: isValid ? undefined : (
+          <div>
+            Invalid version ❌
+            <br />
+            e.g. 1.2.3-preview
+          </div>
+        ),
       };
 
       // Persist to localStorage if valid
@@ -195,7 +199,12 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const updateRemoteVersion = (remoteName: string, version: string | null) => {
-    setFormState((prev) => {
+    // If explicitly setting to null, use the dedicated clear method instead
+    if (version === null) {
+      return clearRemoteVersion(remoteName);
+    }
+
+    setFormState((prev: any) => {
       const field = prev.remoteVersions[remoteName] || {
         value: null,
         initialValue: null,
@@ -205,8 +214,8 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
         isFocusing: false,
       };
 
-      // Only validate if not currently focusing or if clearing the field
-      const shouldValidate = !field.isFocusing || version === null;
+      // Only validate if not currently focusing
+      const shouldValidate = !field.isFocusing;
       const isValid = shouldValidate ? validateSemver(version) : true;
 
       return {
@@ -220,11 +229,15 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
             isTouched: true,
             isValid: shouldValidate ? isValid : field.isValid,
             error:
-              shouldValidate && !isValid
-                ? "Invalid version format (e.g. 1.2.3 or 1.2.3-preview)"
-                : field.isFocusing
-                ? undefined
-                : field.error,
+              shouldValidate && !isValid ? (
+                <div>
+                  Invalid version
+                  <br />
+                  e.g. 1.2.3-preview
+                </div>
+              ) : field.isFocusing ? undefined : (
+                field.error
+              ),
           },
         },
       };
@@ -232,7 +245,46 @@ export const FormProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const clearRemoteVersion = (remoteName: string) => {
-    updateRemoteVersion(remoteName, null);
+    // updateRemoteVersion(remoteName, null);
+    // First update the state
+    setFormState((prev) => {
+      const field = prev.remoteVersions[remoteName] || {
+        value: null,
+        initialValue: null,
+        isTouched: false,
+        isDirty: false,
+        isValid: true,
+        isFocusing: false,
+      };
+
+      return {
+        ...prev,
+        remoteVersions: {
+          ...prev.remoteVersions,
+          [remoteName]: {
+            ...field,
+            value: null,
+            isDirty: null !== field.initialValue,
+            isTouched: true,
+            isValid: true,
+            error: undefined,
+          },
+        },
+      };
+    });
+
+    // Then immediately update localStorage
+    const storedOverrides = localStorage.getItem("hawaii_mfe_overrides") || "";
+    const overridesList = storedOverrides.split(",").filter(Boolean);
+    const updatedOverrides = overridesList
+      .filter((override) => !override.startsWith(`${remoteName}_`))
+      .filter(Boolean);
+
+    localStorage.setItem("hawaii_mfe_overrides", updatedOverrides.join(","));
+
+    // Update active overrides count
+    const remoteNames = new Set(Object.keys(formState.remoteVersions));
+    setActiveOverridesCount(countActiveOverrides(remoteNames));
   };
 
   // Calculate if there are valid changes to apply

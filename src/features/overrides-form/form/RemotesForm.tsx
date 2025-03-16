@@ -6,7 +6,7 @@ import { RemoteVersionInput } from "../input/RemoteVersionInput";
 import "./RemotesForm.css";
 
 export const RemotesForm = () => {
-  const { hostGroups, formState } = useOverridesForm();
+  const { hostGroups, formState, updateRemoteVersion } = useOverridesForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Check if there are any invalid fields
@@ -17,6 +17,14 @@ export const RemotesForm = () => {
   // Check if there are any changes
   const hasChanges = Object.values(formState.remoteVersions).some(
     (field) => field.isDirty
+  );
+
+  const allValid = Object.values(formState.remoteVersions).every(
+    (field) => field.isValid
+  );
+
+  const noFocus = Object.values(formState.remoteVersions).every(
+    (field) => !field.isFocusing
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -70,17 +78,17 @@ export const RemotesForm = () => {
               <thead>
                 <tr>
                   <th>Remote</th>
-                  <th>Version</th>
+                  <th>Override</th>
+                  <th></th>
                 </tr>
               </thead>
               {group.remotes.length > 0 ? (
                 <tbody>
                   {group.remotes.map((remote) => {
-                    if (remote.name === "preview-builder") return null;
+                    if (remote.name === "previewBuilder") return null;
                     if (remote.name === "shell") return null;
-
-                    // Get field state for this remote
-                    const field = formState.remoteVersions[remote.name];
+                    const field =
+                      formState.remoteVersions[camelToKebabCase(remote.name)];
                     const isFocusing = field?.isFocusing || false;
                     const isInvalid = field?.isTouched && !field?.isValid;
                     const isDirty = field?.isDirty || false;
@@ -104,12 +112,82 @@ export const RemotesForm = () => {
                             }
                           >
                             {capitalizeFirstLetter(
-                              camelToKebabCase(remote.name)
+                              camelToKebabCase(remote.name).split("-").join(" ")
                             )}
                           </label>
                         </td>
-                        <td>
+                        <td className="version-cell">
                           <RemoteVersionInput remoteName={remote.name} />
+                        </td>
+                        <td className="message-cell">
+                          <div className="message-cell-text">
+                            {!field.isValid &&
+                              field.isTouched &&
+                              !field.isFocusing && (
+                                <div className="error-message">
+                                  {field.error}
+                                </div>
+                              )}
+
+                            {field.value &&
+                              field.isValid &&
+                              field.isTouched &&
+                              !field.isFocusing && (
+                                <div className="ready-message">
+                                  <button
+                                    type="button"
+                                    className="apply-button"
+                                    onClick={() => {
+                                      updateRemoteVersion(
+                                        camelToKebabCase(remote.name),
+                                        field.value
+                                      );
+                                      setIsSubmitting(true);
+                                      setTimeout(() => {
+                                        window.location.reload();
+                                      }, 1000);
+                                    }}
+                                  >
+                                    Apply Override 🚀
+                                  </button>
+                                </div>
+                              )}
+
+                            {field.value &&
+                              field.initialValue &&
+                              !field.isFocusing &&
+                              !field.isDirty &&
+                              !field.isTouched && (
+                                <div className="override-message">
+                                  MFE Overriden ⚠️
+                                </div>
+                              )}
+
+                            {!field.value &&
+                              field.initialValue &&
+                              !field.isFocusing &&
+                              field.isTouched &&
+                              field.isValid && (
+                                <div className="ready-message">
+                                  <button
+                                    type="button"
+                                    className="apply-button"
+                                    onClick={() => {
+                                      updateRemoteVersion(
+                                        camelToKebabCase(remote.name),
+                                        null
+                                      );
+                                      setIsSubmitting(true);
+                                      setTimeout(() => {
+                                        window.location.reload();
+                                      }, 1000);
+                                    }}
+                                  >
+                                    Clear Override 🚀
+                                  </button>
+                                </div>
+                              )}
+                          </div>
                         </td>
                       </tr>
                     );
@@ -129,18 +207,37 @@ export const RemotesForm = () => {
             ${hasInvalidFields ? "invalid" : ""}
             ${!hasChanges ? "no-changes" : ""}
             ${isSubmitting ? "submitting" : ""}
-            ${hasChanges && !hasInvalidFields && !isSubmitting ? "ready" : ""}
+            ${
+              hasChanges && !hasInvalidFields && !isSubmitting && noFocus
+                ? "ready"
+                : ""
+            }
           `}
           disabled={hasInvalidFields || !hasChanges || isSubmitting}
         >
-          {isSubmitting ? "Applying..." : "Apply Changes"}
+          {!hasChanges ? "No Overrides to Apply. Please update a field." : null}
+          {hasChanges && !hasInvalidFields && !noFocus ? "Editing..." : null}
+          {hasChanges && allValid && noFocus && !isSubmitting
+            ? "Apply Changes 🚀"
+            : null}
+          {hasChanges && hasInvalidFields ? "Please fix errors" : null}
+          {isSubmitting ? "Applying..." : null}
         </button>
 
         <button
           type="button"
-          className="reset-button"
           onClick={handleReset}
-          disabled={isSubmitting}
+          className={`
+            reset-button 
+            ${hasInvalidFields ? "invalid" : ""}
+            ${!hasChanges ? "no-changes" : ""}
+            ${isSubmitting ? "submitting" : ""}
+            ${hasChanges && !hasInvalidFields && !isSubmitting ? "ready" : ""}
+
+          `}
+          disabled={
+            isSubmitting || (!hasChanges && !hasInvalidFields) || !hasChanges
+          }
         >
           Reset All
         </button>

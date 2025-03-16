@@ -14,7 +14,9 @@ export const RemoteVersionInput = ({
   const { formState, updateRemoteVersion, handleFieldFocus, handleFieldBlur } =
     useOverridesForm();
 
-  const field = formState.remoteVersions[camelToKebabCase(remoteName)] || {
+  const remoteManifestName = camelToKebabCase(remoteName);
+
+  const field = formState.remoteVersions[remoteManifestName] || {
     value: "",
     isValid: true,
     isFocusing: false,
@@ -30,25 +32,52 @@ export const RemoteVersionInput = ({
         type="text"
         value={field.value || ""}
         onChange={(e) =>
-          updateRemoteVersion(
-            camelToKebabCase(remoteName),
-            e.target.value || null
-          )
+          updateRemoteVersion(remoteManifestName, e.target.value || null)
         }
-        onFocus={() => handleFieldFocus(camelToKebabCase(remoteName))}
-        onBlur={() => handleFieldBlur(camelToKebabCase(remoteName))}
-        placeholder="1.0.0"
-        className={`version-input ${field.isFocusing ? "is-focused" : ""} ${
-          !field.isValid && field.isTouched && !field.isFocusing
-            ? "is-invalid"
-            : ""
-        } ${
-          field.isValid && field.isDirty && !field.isFocusing ? "is-valid" : ""
-        }`}
+        onFocus={() => handleFieldFocus(remoteManifestName)}
+        onBlur={() => handleFieldBlur(remoteManifestName)}
+        placeholder="Enter version"
+        className={`
+          version-input 
+          ${field.isFocusing ? "focused" : ""}
+          ${field.isDirty ? "isDirty" : ""}
+          ${field.isTouched ? "isTouched" : ""}
+          ${!field.isValid && field.isTouched ? "invalid" : ""}
+          ${field.error ? "error" : ""}
+          ${field?.isDirty && field?.isValid ? "valid" : ""}
+        `}
       />
-      {!field.isValid && field.isTouched && !field.isFocusing && (
-        <div className="error-message">{field.error}</div>
-      )}
+
+      {
+        // only show the reset button if there is an initial value
+        field.value && field?.initialValue ? (
+          <button
+            type="button"
+            className="clear-button"
+            aria-label="Clear input"
+            onClick={() => {
+              updateRemoteVersion(remoteManifestName, null);
+            }}
+          >
+            X
+          </button>
+        ) : null
+      }
+      {
+        // only show the reset button if there is an initial value
+        !field.isValid && field.isTouched && !field.isFocusing ? (
+          <button
+            type="button"
+            className="clear-button"
+            aria-label="Clear input"
+            onClick={() => {
+              updateRemoteVersion(remoteManifestName, null);
+            }}
+          >
+            X
+          </button>
+        ) : null
+      }
     </div>
   );
 };
