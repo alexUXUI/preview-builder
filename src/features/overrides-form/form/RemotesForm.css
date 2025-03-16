@@ -449,3 +449,49 @@ input[type="text"]:focus label {
     rgba(255, 255, 255, 0.1)
   );
 }
+
+@keyframes highlightTarget {
+  0% {
+    background-color: rgba(64, 112, 255, 0.3);
+  }
+  50% {
+    background-color: rgba(64, 112, 255, 0.1);
+  }
+  100% {
+    background-color: rgba(64, 112, 255, 0.05);
+  }
+}
+
+.remotes-table tr.highlight-target {
+  animation: highlightTarget 2s ease-out forwards;
+}
+
+.remotes-table tr.highlight-target .remote-label {
+  color: #4070ff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+./* filepath: /Users/alexbennett/Desktop/workspace/hawaii-preview-widget/src/features/overrides-form/form/RemotesForm.css */
+/* Animation for rows that are targets of navigation from graph */
+@keyframes highlightTarget {
+  0% {
+    background-color: rgba(64, 112, 255, 0.3);
+  }
+  50% {
+    background-color: rgba(64, 112, 255, 0.1);
+  }
+  100% {
+    background-color: rgba(64, 112, 255, 0.05);
+  }
+}
+
+.remotes-table tr.highlight-target {
+  animation: highlightTarget 2s ease-out forwards;
+}
+
+.remotes-table tr.highlight-target .remote-label {
+  color: #4070ff;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}

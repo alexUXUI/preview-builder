@@ -73,6 +73,8 @@ interface SelectionContextType {
   highlightedRemoteName: string | null;
   highlightRemote: (remoteName: string | null) => void;
   setActiveTab: (tab: string) => void;
+  focusRemoteInput: (remoteName: string) => void; // New function
+  remoteToFocus: string | null; // New state
 }
 
 const SelectionContext = createContext<SelectionContextType | undefined>(
@@ -89,6 +91,15 @@ export const SelectionProvider: React.FC<{
     string | null
   >(null);
 
+  // Add state to track which remote input should receive focus
+  const [remoteToFocus, setRemoteToFocus] = useState<string | null>(null);
+
+  // Clear the focus target when activeTab changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    setRemoteToFocus(null);
+  }, [activeTab]);
+
   const selectNode = (nodeId: string | null) => {
     console.log(`Selecting node: ${nodeId}`);
     setSelectedNodeId(nodeId);
@@ -97,11 +108,22 @@ export const SelectionProvider: React.FC<{
       // Extract remoteName from the node ID format "node-{remoteName}-{level}"
       const match = nodeId.match(/^node-(.+?)-\d+$/);
       if (match && match[1]) {
-        setHighlightedRemoteName(match[1]);
+        const remoteName = match[1];
+        setHighlightedRemoteName(remoteName);
+
+        // If we're clicking on a node in the graph, switch to form tab and focus the input
+        if (activeTab === "graph") {
+          setRemoteToFocus(remoteName);
+          onTabChange("overrides");
+        }
       }
     } else {
       setHighlightedRemoteName(null);
     }
+  };
+
+  const focusRemoteInput = (remoteName: string) => {
+    setRemoteToFocus(remoteName);
   };
 
   const highlightRemote = (remoteName: string | null) => {
@@ -137,6 +159,8 @@ export const SelectionProvider: React.FC<{
         highlightedRemoteName,
         highlightRemote,
         setActiveTab,
+        focusRemoteInput,
+        remoteToFocus, // Expose the state
       }}
     >
       {children}

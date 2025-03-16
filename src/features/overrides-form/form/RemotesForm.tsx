@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TooltipWrapper } from "../../tooltip/tooltip";
 import { camelToKebabCase } from "../../graph/graph";
 import { useOverridesForm } from "../context/form.context";
@@ -7,10 +7,35 @@ import { useSelection } from "../../selection/selection.context";
 import "./RemotesForm.css";
 
 export const RemotesForm = () => {
-  const { hostGroups, formState, updateRemoteVersion } = useOverridesForm();
+  const { hostGroups, formState, updateRemoteVersion, handleFieldFocus } =
+    useOverridesForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { highlightedRemoteName, highlightRemote, setActiveTab } =
-    useSelection();
+  const {
+    highlightedRemoteName,
+    highlightRemote,
+    setActiveTab,
+    remoteToFocus,
+  } = useSelection();
+
+  const inputRefs = useRef<Record<string, HTMLInputElement>>({});
+
+  useEffect(() => {
+    if (remoteToFocus) {
+      // Try to find the input element for this remote
+      const inputElement =
+        document.getElementById(remoteToFocus) ||
+        document.getElementById(camelToKebabCase(remoteToFocus));
+
+      if (inputElement && inputElement instanceof HTMLInputElement) {
+        // Focus the input and trigger the focus handler
+        inputElement.focus();
+        handleFieldFocus(camelToKebabCase(remoteToFocus));
+
+        // Scroll the input into view with smooth behavior
+        inputElement.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [remoteToFocus, handleFieldFocus]);
 
   // Check if there are any invalid fields
   const hasInvalidFields = Object.values(formState.remoteVersions).some(
@@ -101,7 +126,9 @@ export const RemotesForm = () => {
                     const isDirty = field?.isDirty || false;
                     const kebabName = camelToKebabCase(remote.name);
 
-                    const isHighlighted = highlightedRemoteName === remote.name;
+                    const isHighlightTarget =
+                      remoteToFocus === remote.name ||
+                      remoteToFocus === kebabName;
 
                     return (
                       <tr
@@ -110,6 +137,12 @@ export const RemotesForm = () => {
                           ${isFocusing ? "focusing" : ""}
                           ${isInvalid ? "invalid" : ""}
                           ${isDirty ? "modified" : ""}
+                          ${isHighlightTarget ? "highlight-target" : ""}
+                          ${
+                            highlightedRemoteName === remote.name
+                              ? "highlighted"
+                              : ""
+                          }
                         `}
                       >
                         <td>
@@ -139,7 +172,13 @@ export const RemotesForm = () => {
                           </label>
                         </td>
                         <td className="version-cell">
-                          <RemoteVersionInput remoteName={remote.name} />
+                          <RemoteVersionInput
+                            remoteName={remote.name}
+                            id={remote.name}
+                            ref={(el) => {
+                              if (el) inputRefs.current[remote.name] = el;
+                            }}
+                          />
                         </td>
                         <td className="message-cell">
                           <div className="message-cell-text">
