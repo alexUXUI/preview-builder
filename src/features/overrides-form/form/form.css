@@ -34,8 +34,9 @@
 
 .host-title h4 {
   margin: 0;
-  color: var(--text-color);
+  /* color: var(--text-color); */
   font-size: 21px;
+  color: var(--colors-app-blue-700);
 }
 
 .host-version {
@@ -49,14 +50,49 @@
 .remotes-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 0.8rem;
+  border-spacing: 0 0.2rem;
+  border-radius: 8px;
+}
+
+.remotes-table thead {
+  border-bottom: 1px solid var(--colors-gray-light-mode-200);
+  /* background: linear-gradient(145deg, #f3f6f9 0%, #eaeff3 100%); */
+  border-radius: 8px;
+  /* box-shadow: 3px 3px 6px rgba(166, 180, 200, 0.15),
+    -3px -3px 6px rgba(255, 255, 255, 0.8); */
+}
+
+.remotes-table thead tr {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .remotes-table th {
-  color: var(--text-color-light);
-  font-weight: 600;
+  font-weight: 400 !important;
   text-align: left;
-  font-size: 18px;
+  font-size: 16px !important;
+  padding: 2px 4px 2px 4px;
+  position: relative;
+}
+
+.remotes-table td {
+  padding: 2px 4px 2px 4px;
+}
+
+.remotes-table tbody {
+  /* background: var(--surface-color); */
+}
+
+table {
+  /* background: #dadada !important; */
+}
+
+.remotes-table th {
+  color: var(--colors-gray-light-mode-500) !important;
+  font-weight: 400;
+  text-align: left;
+  font-size: 16px;
 }
 
 .remotes-table td {
@@ -67,10 +103,50 @@
 
 .version-cell {
   width: 25% !important;
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
 }
 
 .message-cell-text {
-  text-align: center;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.override-message {
+  display: flex;
+  /* align-items: center; */
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.override-message span {
+  background: var(--colors-primary-colors-caution-caution-50);
+  border: 1px solid var(--colors-primary-colors-caution-caution-500);
+  padding: 2px 4px 2px 4px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--colors-primary-colors-caution-utility-warning-700);
+}
+
+.clear-override {
+  background: var(--colors-primary-colors-caution-caution-50);
+  border: 1px solid var(--colors-primary-colors-caution-caution-500);
+  padding: 2px 4px 2px 4px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--colors-primary-colors-caution-utility-warning-700);
+}
+
+.apply-override {
+  background: var(--colors-primary-colors-success-success-100);
+  border: 1px solid var(--colors-primary-colors-success-success-500);
+  padding: 2px 4px 2px 4px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--colors-primary-colors-success-utility-success-700);
 }
 
 .remotes-table tr {
@@ -84,7 +160,7 @@
 
 .remote-label {
   font-weight: 500;
-  color: var(--text-color);
+  color: var(--colors-brand-accuris-900);
   font-size: 16px;
 }
 

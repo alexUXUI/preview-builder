@@ -21,7 +21,6 @@ const PreviewBuilderContent = () => {
           activeTab={activeTab}
           setActiveTab={setActiveTab}
         />
-        <hr />
         <TabContent activeTab={activeTab} />
       </Panel>
     </SelectionProvider>

@@ -1,0 +1,26 @@
+:root {
+  /* Base neomorphic theme colors - lighter, more modern palette */
+  --neomorphic-bg: #e6ebf2;
+  --neomorphic-text: #2d3748;
+  --neomorphic-shadow-dark: rgba(200, 210, 224, 0.6);
+  --neomorphic-shadow-dark-mild: rgba(163, 177, 198, 0.4);
+  --neomorphic-shadow-dark-pressed: rgba(163, 177, 198, 0.7);
+  --neomorphic-shadow-light: rgba(255, 255, 255, 0.8);
+  --neomorphic-shadow-light-intense: rgba(255, 255, 255, 0.9);
+
+  /* Interactive states - more subtle and refined */
+  --neomorphic-focus: rgba(99, 179, 237, 0.4);
+  --neomorphic-focus-subtle: rgba(99, 179, 237, 0.25);
+  --neomorphic-error: #e53e3e;
+  --neomorphic-error-subtle: rgba(229, 62, 62, 0.2);
+  --neomorphic-success: #38a169;
+  --neomorphic-success-subtle: rgba(56, 161, 105, 0.2);
+
+  /* Transition settings */
+  --neomorphic-transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+
+  /* Border radius - slightly softer */
+  --neomorphic-radius: 14px;
+  --neomorphic-radius-small: 10px;
+  --neomorphic-radius-large: 18px;
+}

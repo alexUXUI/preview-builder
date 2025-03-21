@@ -1,0 +1,100 @@
+@import "../../../styles/neomorphic.css";
+
+.button {
+  /* Base variables for theming */
+  --base-bg: #fcfdfe;
+  --text-color: #2a2a2a;
+  --shadow-dark: rgba(163, 177, 198, 0.6);
+  --shadow-light: rgba(255, 255, 255, 0.8);
+  --shadow-dark-pressed: rgba(163, 177, 198, 0.8);
+
+  /* Core button styling */
+  position: relative;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--neomorphic-text);
+  background-color: var(--neomorphic-bg);
+  cursor: pointer;
+  outline: none;
+  transition: var(--neomorphic-transition);
+
+  /* Convex effect (raised) in default state */
+  box-shadow: 0px 3px 16px var(--neomorphic-shadow-dark),
+    -0px -3px 16px var(--neomorphic-shadow-light);
+
+  /* Subtle gradient to enhance 3D feel */
+  background: linear-gradient(145deg, #fcfdfe, #f6f8fb);
+}
+
+/* Hover state - beginning of concave effect */
+.button:hover {
+  background: var(--neomorphic-bg);
+  box-shadow: 4px 4px 8px var(--neomorphic-shadow-dark),
+    -4px -4px 8px var(--neomorphic-shadow-light),
+    inset 2px 2px 4px var(--neomorphic-shadow-dark),
+    inset -2px -2px 4px var(--neomorphic-shadow-light);
+}
+
+/* Active/pressed state - full concave effect */
+.button:active {
+  transform: translateY(1px);
+  background: linear-gradient(135deg, #d0d5dc, #e8edf4);
+  box-shadow: inset 6px 6px 10px var(--neomorphic-shadow-dark-pressed),
+    inset -6px -6px 10px var(--neomorphic-shadow-light);
+}
+
+/* Focus state for accessibility */
+.button:focus-visible {
+  box-shadow: 0 0 0 3px var(--neomorphic-focus),
+    6px 6px 12px var(--neomorphic-shadow-dark),
+    -6px -6px 12px var(--neomorphic-shadow-light);
+}
+
+/* Disabled state */
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 4px 4px 8px var(--neomorphic-shadow-dark),
+    -4px -4px 8px var(--neomorphic-shadow-light);
+}
+
+/* Creating a subtle press animation */
+@keyframes button-press {
+  0% {
+    box-shadow: 8px 8px 16px var(--neomorphic-shadow-dark),
+      -8px -8px 16px var(--neomorphic-shadow-light);
+  }
+  50% {
+    box-shadow: inset 6px 6px 10px var(--neomorphic-shadow-dark-pressed),
+      inset -6px -6px 10px var(--neomorphic-shadow-light);
+  }
+  100% {
+    box-shadow: 8px 8px 16px var(--neomorphic-shadow-dark),
+      -8px -8px 16px var(--neomorphic-shadow-light);
+  }
+}
+
+/* Size variations */
+.button-small {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: var(--neomorphic-radius-small);
+}
+
+.button-large {
+  padding: 18px 36px;
+  font-size: 18px;
+  border-radius: var(--neomorphic-radius-large);
+  box-shadow: 10px 10px 20px var(--neomorphic-shadow-dark),
+    -10px -10px 20px var(--neomorphic-shadow-light);
+}
+
+.button-large:active {
+  box-shadow: inset 8px 8px 16px var(--neomorphic-shadow-dark-pressed),
+    inset -8px -8px 16px var(--neomorphic-shadow-light);
+}

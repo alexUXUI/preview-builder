@@ -25,10 +25,10 @@ input[type="text"].invalid {
     inset 0px -1px 10px rgb(248, 204, 182);
 }
 
-.version-input.valid {
+/* .version-input.valid {
   box-shadow: inset 0px 1px 1px rgb(172, 243, 223),
     inset 0px -1px 10px rgb(213, 250, 191);
-}
+} */
 
 input[type="text"]:focus {
   outline: none;

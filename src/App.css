@@ -1,5 +1,5 @@
 .remotes-table tr.highlighted {
-  background-color: rgba(64, 112, 255, 0.08);
+  /* background-color: rgba(64, 112, 255, 0.08); */
   animation: highlightPulse 2s ease-in-out;
 }
 
