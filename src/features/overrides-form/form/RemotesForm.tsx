@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { camelToKebabCase } from '../../graph/graph';
-import { useSelection } from '../../selection/selection.context';
-import { TooltipWrapper } from '../../tooltip/tooltip';
-import { useOverridesForm } from '../context/form.context';
-import { RemoteVersionInput } from '../input/RemoteVersionInput';
-import './RemotesForm.css';
+import { useEffect, useRef, useState } from "react";
+import { camelToKebabCase } from "../../graph/graph";
+import { useSelection } from "../../selection/selection.context";
+import { TooltipWrapper } from "../../tooltip/tooltip";
+import { useOverridesForm } from "../context/form.context";
+import { RemoteVersionInput } from "../input/RemoteVersionInput";
+import "./RemotesForm.css";
 // import "./new-button.css";
 // import "./button.css";
 
@@ -34,27 +34,27 @@ export const RemotesForm = () => {
         handleFieldFocus(camelToKebabCase(remoteToFocus));
 
         // Scroll the input into view with smooth behavior
-        inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        inputElement.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
   }, [remoteToFocus, handleFieldFocus]);
 
   // Check if there are any invalid fields
   const hasInvalidFields = Object.values(formState.remoteVersions).some(
-    field => !field.isValid,
+    (field) => !field.isValid
   );
 
   // Check if there are any changes
   const hasChanges = Object.values(formState.remoteVersions).some(
-    field => field.isDirty,
+    (field) => field.isDirty
   );
 
   const allValid = Object.values(formState.remoteVersions).every(
-    field => field.isValid,
+    (field) => field.isValid
   );
 
   const noFocus = Object.values(formState.remoteVersions).every(
-    field => !field.isFocusing,
+    (field) => !field.isFocusing
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -75,8 +75,8 @@ export const RemotesForm = () => {
 
   // Handle cancel or reset
   const handleReset = () => {
-    if (confirm('This will clear all MFE overrides.')) {
-      localStorage.removeItem('hawaii_mfe_overrides');
+    if (confirm("This will clear all MFE overrides.")) {
+      localStorage.removeItem("hawaii_mfe_overrides");
       setTimeout(() => {
         window.location.reload();
       }, 500);
@@ -88,14 +88,14 @@ export const RemotesForm = () => {
   }
 
   const capitalizeFirstLetter = (str: string): string => {
-    if (!str) return '';
+    if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
   return (
     <form onSubmit={handleSubmit} className="remotes-form">
       <div>
-        {hostGroups.map(group => (
+        {hostGroups.map((group) => (
           <div key={group.manifestName} className="host-group">
             <div className="host-group-header">
               <div className="host-title">
@@ -111,20 +111,20 @@ export const RemotesForm = () => {
             <table className="remotes-table">
               <thead>
                 <tr>
-                  {group.manifestName === 'shell' ? (
+                  {group.manifestName === "shell" ? (
                     <th>Product MFEs</th>
                   ) : (
                     <th>Service MFEs</th>
                   )}
-                  <th style={{ textAlign: 'center' }}>Override</th>
-                  <th style={{ textAlign: 'right' }}></th>
+                  <th style={{ textAlign: "center" }}>Override</th>
+                  <th style={{ textAlign: "right" }}></th>
                 </tr>
               </thead>
               {group.remotes.length > 0 ? (
                 <tbody>
-                  {group.remotes.map(remote => {
-                    if (remote.name === 'previewBuilder') return null;
-                    if (remote.name === 'shell') return null;
+                  {group.remotes.map((remote) => {
+                    if (remote.name === "previewBuilder") return null;
+                    if (remote.name === "shell") return null;
                     const field =
                       formState.remoteVersions[camelToKebabCase(remote.name)];
                     const isFocusing = field?.isFocusing || false;
@@ -140,14 +140,14 @@ export const RemotesForm = () => {
                       <tr
                         key={remote.name}
                         className={`
-                          ${isFocusing ? 'focusing' : ''}
-                          ${isInvalid ? 'invalid' : ''}
-                          ${isDirty ? 'modified' : ''}
-                          ${isHighlightTarget ? 'highlight-target' : ''}
+                          ${isFocusing ? "focusing" : ""}
+                          ${isInvalid ? "invalid" : ""}
+                          ${isDirty ? "modified" : ""}
+                          ${isHighlightTarget ? "highlight-target" : ""}
                           ${
                             highlightedRemoteName === remote.name
-                              ? 'highlighted'
-                              : ''
+                              ? "highlighted"
+                              : ""
                           }
                         `}
                       >
@@ -158,24 +158,22 @@ export const RemotesForm = () => {
                             htmlFor={remote.name}
                             className={
                               isFocusing
-                                ? 'focusing-label remote-label'
-                                : 'remote-label'
+                                ? "focusing-label remote-label"
+                                : "remote-label"
                             }
-                            onClick={e => {
+                            onClick={(e) => {
                               e.preventDefault();
                               highlightRemote(remote.name);
                               console.log(
-                                `Clicked on remote label: ${remote.name}`,
+                                `Clicked on remote label: ${remote.name}`
                               );
                               // Make sure we're using the original name, not the kebab case version
                               // This will match how nodes are created in the graph
-                              setActiveTab('graph');
+                              setActiveTab("graph");
                             }}
                           >
                             {capitalizeFirstLetter(
-                              camelToKebabCase(remote.name)
-                                .split('-')
-                                .join(' '),
+                              camelToKebabCase(remote.name).split("-").join(" ")
                             )}
                           </label>
                         </td>
@@ -183,7 +181,7 @@ export const RemotesForm = () => {
                           <RemoteVersionInput
                             remoteName={remote.name}
                             id={remote.name}
-                            ref={el => {
+                            ref={(el) => {
                               if (el) inputRefs.current[remote.name] = el;
                             }}
                           />
@@ -207,12 +205,12 @@ export const RemotesForm = () => {
                                     type="button"
                                     className={`
                                       apply-override
-                                      ${isSubmitting ? 'submitting' : ''}
+                                      ${isSubmitting ? "submitting" : ""}
                                       `}
                                     onClick={() => {
                                       updateRemoteVersion(
                                         camelToKebabCase(remote.name),
-                                        field.value,
+                                        field.value
                                       );
                                       setIsSubmitting(true);
                                       setTimeout(() => {
@@ -221,8 +219,8 @@ export const RemotesForm = () => {
                                     }}
                                   >
                                     {!isSubmitting
-                                      ? 'Apply Override'
-                                      : 'Applying...'}
+                                      ? "Apply Override"
+                                      : "Applying..."}
                                   </button>
                                 </div>
                               )}
@@ -247,12 +245,12 @@ export const RemotesForm = () => {
                                     type="button"
                                     className={`
                                       clear-override
-                                      ${isSubmitting ? 'submitting' : ''}
+                                      ${isSubmitting ? "submitting" : ""}
                                       `}
                                     onClick={() => {
                                       updateRemoteVersion(
                                         camelToKebabCase(remote.name),
-                                        null,
+                                        null
                                       );
                                       setIsSubmitting(true);
                                       setTimeout(() => {
@@ -261,8 +259,8 @@ export const RemotesForm = () => {
                                     }}
                                   >
                                     {!isSubmitting
-                                      ? 'Clear Override'
-                                      : 'Applying...'}
+                                      ? "Clear Override"
+                                      : "Applying..."}
                                   </button>
                                 </div>
                               )}
@@ -282,24 +280,24 @@ export const RemotesForm = () => {
         <button
           type="submit"
           className={`
-            ${hasInvalidFields ? 'invalid' : ''}
-            ${!hasChanges ? 'no-changes' : ''}
-            ${isSubmitting ? 'submitting' : ''}
+            ${hasInvalidFields ? "invalid" : ""}
+            ${!hasChanges ? "no-changes" : ""}
+            ${isSubmitting ? "submitting" : ""}
             ${
               hasChanges && !hasInvalidFields && !isSubmitting && noFocus
-                ? 'ready'
-                : ''
+                ? "ready"
+                : ""
             }
           `}
           disabled={hasInvalidFields || !hasChanges || isSubmitting}
         >
-          {!hasChanges ? 'No Overrides to Apply. Please update a field.' : null}
-          {hasChanges && !hasInvalidFields && !noFocus ? 'Editing...' : null}
+          {!hasChanges ? "No Overrides to apply" : null}
+          {hasChanges && !hasInvalidFields && !noFocus ? "Editing..." : null}
           {hasChanges && allValid && noFocus && !isSubmitting
-            ? 'Apply Changes'
+            ? "Apply Changes"
             : null}
-          {hasChanges && hasInvalidFields ? 'Please fix errors' : null}
-          {isSubmitting ? 'Applying...' : null}
+          {hasChanges && hasInvalidFields ? "Please fix errors" : null}
+          {isSubmitting ? "Applying..." : null}
         </button>
 
         <button
@@ -308,10 +306,10 @@ export const RemotesForm = () => {
           className={`
             reset-button
             button
-            ${hasInvalidFields ? 'invalid' : ''}
-            ${!hasChanges ? 'no-changes' : ''}
-            ${isSubmitting ? 'submitting' : ''}
-            ${hasChanges && !hasInvalidFields && !isSubmitting ? 'ready' : ''}
+            ${hasInvalidFields ? "invalid" : ""}
+            ${!hasChanges ? "no-changes" : ""}
+            ${isSubmitting ? "submitting" : ""}
+            ${hasChanges && !hasInvalidFields && !isSubmitting ? "ready" : ""}
 
           `}
           disabled={isSubmitting}

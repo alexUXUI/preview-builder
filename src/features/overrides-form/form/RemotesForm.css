@@ -36,10 +36,10 @@
 
 /* Base Styles */
 .remotes-form {
-  max-width: 900px;
   margin: 0 auto;
-  padding: var(--space-6);
+  padding: 0;
   color: var(--color-gray-900);
+  width: 100%;
 }
 
 /* Typography */
@@ -81,11 +81,11 @@ h4 {
 }
 
 /* Table Styles */
-.remotes-table {
+/* .remotes-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 var(--space-1);
-}
+} */
 
 .remotes-table th {
   text-align: left;
@@ -102,6 +102,7 @@ h4 {
   background: var(--color-white);
   border: 1px solid var(--color-border);
   transition: var(--transition-base);
+  width: 33.33%;
 }
 
 .remotes-table tr:hover td {
@@ -242,6 +243,7 @@ button.invalid:hover:not(:disabled) {
 
 .form-actions button {
   min-width: var(--button-min-width);
+  width: 50%;
 }
 
 /* Clear Button */
